@@ -3,5 +3,6 @@ export enum AppModules {
   Main = '/main',
   Login = '/login',
   Register='/register',
-  Category = '/category'
+  Category = '/category',
+  Test='/test'
 }

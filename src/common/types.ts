@@ -11,6 +11,9 @@ export interface RegisterDTO {
 export interface CategoryDTO {
   title: string;
 }
+export interface TestDTO {
+  title: string;
+}
 
 
 export interface UserDTO {
@@ -28,7 +31,9 @@ export interface UserDTO {
 export interface User extends UserDTO {
   id: number;
 }
-
+export interface Test extends TestDTO {
+  id: number;
+}
 export interface TrainingDTO {
   name: string;
   duration: number;
