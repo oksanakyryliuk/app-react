@@ -1,56 +1,101 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
-import {Category} from "../common/types";
+import React, { useState } from 'react';
+import { Category } from '../common/types';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  TextField,
+} from '@mui/material';
 
-function CategoryTable({ categories}: {categories: Array<Category>}) {
+interface CategoryTableProps {
+  categories: Category[];
+  updateCategory: (category: Category) => void;
+  deleteCategory: (categoryId: number) => void;
+}
 
-  // const handleDeleteClick = async (id: number) => {
-  //   try {
-  //     // Відправити запит на видалення категорії за id на сервер
-  //   //   axios.delete(`http://localhost:5243/api/Category/${id}`);
-  //     // Викликати функцію onDeleteCategory для видалення категорії зі списку
-  //     onDeleteCategory(id);
-  //   } catch (error) {
-  //     console.error('Error deleting category:', error);
-  //   }
-  // };
+function CategoryTable({ categories, updateCategory, deleteCategory }: CategoryTableProps) {
+  const [editableCategoryId, setEditableCategoryId] = useState<number | null>(null);
+  const [editedCategoryTitle, setEditedCategoryTitle] = useState('');
 
-  // Викликати функцію onDeleteCategory та оновити таблицю при зміні categories
-  useEffect(() => {
-    // Оновити таблицю, коли зміниться список категорій
-  }, [categories]);
+  const handleEditCategory = (categoryId: number, title: string) => {
+    setEditableCategoryId(categoryId);
+    setEditedCategoryTitle(title);
+  };
+
+  const handleSaveCategory = () => {
+    if (editableCategoryId !== null) {
+      updateCategory({ id: editableCategoryId, title: editedCategoryTitle });
+      setEditableCategoryId(null);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditableCategoryId(null);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedCategoryTitle(e.target.value);
+  };
 
   return (
-    <div>
-      <h2>Categories</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Action</th> {/* Додано стовпчик для кнопки видалення */}
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category) => (
-            <tr key={category.id}>
-              <td>{category.title}</td>
-              <td>
-                <button>delete</button>
-                {/*<button onClick={() => handleDeleteClick(category.id)}>Delete</button>*/}
-              </td>
-              <td>
-                <button >Edit</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <div>
+        <h2>Categories</h2>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>#</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Action</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {categories.map((category, index) => (
+                  <TableRow key={category.id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>
+                      {editableCategoryId === category.id ? (
+                          <TextField
+                              type="text"
+                              value={editedCategoryTitle}
+                              onChange={handleInputChange}
+                          />
+                      ) : (
+                          category.title
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editableCategoryId === category.id ? (
+                          <>
+                            <Button onClick={handleSaveCategory}>Save</Button>
+                            <Button onClick={handleCancelEdit}>Cancel</Button>
+                          </>
+                      ) : (
+                          <Button onClick={() => handleEditCategory(category.id, category.title)}>
+                            Edit
+                          </Button>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {editableCategoryId !== category.id && (
+                          <Button onClick={() => deleteCategory(category.id)}>Delete</Button>
+                      )}
+                    </TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
   );
 }
 
 export default CategoryTable;
-
-
-
