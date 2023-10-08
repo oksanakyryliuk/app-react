@@ -15,6 +15,7 @@ import MainLayout from './common/components/MainLayout';
 import { RegisterPage } from "./auth/register/Register";
 import {CategoryPage} from "./pages/Category";
 import {TestPage} from "./pages/Test";
+import {GeneralTestsPage} from "./pages/GeneralTestsPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,7 +27,8 @@ const router = createBrowserRouter(
           {/*</Route>*/}
 
             <Route path={AppModules.Category} element={<CategoryPage />} />
-            <Route path={AppModules.Test} element={<TestPage />} />
+            <Route path='/test/:testId' element={<TestPage />} />
+            <Route path={AppModules.Test} element={<GeneralTestsPage />} />
           <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />
         </>,
