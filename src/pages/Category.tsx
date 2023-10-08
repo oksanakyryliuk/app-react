@@ -4,25 +4,7 @@ import CategoryTable from '../components/CategoryTable';
 import axios from 'axios';
 import {apiGetCategories} from "../common/services/category-service";
 import {Category, CategoryDTO} from "../common/types";
-import {apiCreateCategory} from "../common/services/category-service";
-//
-// export function CategoryPage() {
-//   const [categories, setCategories] = useState<Category[]>([]);
-//
-//   useEffect(() => {
-//     apiGetCategories().then(categories => setCategories(categories));
-//   }, []);
-//
-//
-//   return (
-//     <div style={{margin: "10px 20px"}}>
-//       <h1>Category Manager</h1>
-//       <CategoryForm />
-//       <CategoryTable categories={categories} />
-//     </div>
-//   );
-// }
-
+import {apiCreateCategory, apiUpdateCategory, apiDeleteCategory} from "../common/services/category-service";
 
 export function CategoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -46,11 +28,35 @@ export function CategoryPage() {
         });
   };
 
+  const updateCategory = (categoryToUpdate: Category) => {
+    apiUpdateCategory(categoryToUpdate)
+        .then(() => {
+          loadCategories();
+        })
+        .catch((error) => {
+          console.error('Error updating category: ', error);
+        });
+  };
+
+  const deleteCategory = (categoryId: number) => {
+    apiDeleteCategory(categoryId)
+        .then(() => {
+          loadCategories();
+        })
+        .catch((error) => {
+          console.error('Error deleting category: ', error);
+        });
+  };
+
+
   return (
       <div style={{ margin: "10px 20px" }}>
         <h1>Category Manager</h1>
         <CategoryForm createCategory={createCategory} />
-        <CategoryTable categories={categories} />
+        <CategoryTable   categories={categories}
+                         updateCategory={updateCategory}
+            deleteCategory={deleteCategory}
+          />
       </div>
   );
 }
