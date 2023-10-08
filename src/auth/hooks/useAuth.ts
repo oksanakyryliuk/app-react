@@ -49,3 +49,4 @@ export function useAuth() {
 
   return { login,registerUser, logout, isLoggedIn, token };
 }
+

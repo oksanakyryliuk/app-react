@@ -8,6 +8,9 @@ export interface RegisterDTO {
   password: string;
   name: string
 }
+export interface CategoryDTO {
+  title: string;
+}
 
 
 export interface UserDTO {
@@ -35,6 +38,10 @@ export interface TrainingDTO {
 }
 
 export interface Training extends TrainingDTO {
+  id: number;
+}
+
+export interface Category extends CategoryDTO {
   id: number;
 }
 
