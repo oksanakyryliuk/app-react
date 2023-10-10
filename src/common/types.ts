@@ -12,9 +12,12 @@ export interface CategoryDTO {
   title: string;
 }
 export interface TestDTO {
-  title: string;
-  description: string;
-  duration: number;
+  Title: string;
+  Description: string;
+  Duration: number;
+  Categories: string[];
+  IsPublic: boolean;
+  Status: string;
 }
 
 
@@ -34,7 +37,7 @@ export interface User extends UserDTO {
   id: number;
 }
 export interface Test extends TestDTO {
-  id: number;
+  Id: number;
 }
 export interface TrainingDTO {
   name: string;

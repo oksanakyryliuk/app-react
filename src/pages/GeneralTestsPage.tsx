@@ -6,7 +6,7 @@ import {apiGetTests} from "../common/services/test-service";
 import {TestCardList} from "../components/TestComponents/TestList";
 import {apiGetCategories} from "../common/services/category-service";
 import {Button} from '@mui/material'
-import {TestForm} from "../components/TestComponents/TestForm";
+import {CreateTestForm} from "../components/TestComponents/TestForm";
 
 export function GeneralTestsPage() {
 
@@ -19,7 +19,7 @@ export function GeneralTestsPage() {
     return (
         <div style={{ margin: "10px 20px" }}>
             <h1>Test Manager</h1>
-            <TestForm />
+            <CreateTestForm />
             <TestCardList tests={tests} />
         </div>
     );
