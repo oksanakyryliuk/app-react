@@ -13,6 +13,8 @@ export interface CategoryDTO {
 }
 export interface TestDTO {
   title: string;
+  description: string;
+  duration: number;
 }
 
 
