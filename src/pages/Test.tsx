@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
+import {
+  Box,
+  Stack,
+  TextField,
+  Button,
+  Typography
+} from '@mui/material';
+import {FieldValues, useForm} from "react-hook-form";
+import PublicIcon from '../common/icons/icon-public-test.png';
+import PrivateIcon from '../common/icons/icon-private-test.png';
+import EditIcon from '../common/icons/edit.png';
+import CustomSwitch from "../common/components/CustomSwitch";
+import {Category} from "../common/types";
+import {apiGetCategories} from "../common/services/category-service";
+import {CategoryForm} from "../components/TestComponents/ModalMain/CategoryForm";
 
 export function TestPage() {
 
   const { testId } = useParams();
+  const { register, formState: { isValid } } = useForm<FieldValues>();
   
   // State for form data
   const [Title, setQuestion] = useState<string>('');
@@ -60,26 +76,80 @@ export function TestPage() {
   };
 
   return (
-    <div>
-      <h1>Creating a question for the test with ID: {testId}</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Question:</label>
-          <input type="text" value={Title} onChange={handleQuestionChange} />
-        </div>
-        <div>
-          <label>Answers:</label>
-          {answers.map((answer, index) => (
-            <input
-              key={index}
-              type="text"
-              value={answer}
-              onChange={(e) => handleAnswerChange(e, index)}
-            />
-          ))}
-        </div>
-        <button type="submit">Create Question</button>
-      </form>
-    </div>
+      <Box sx={{ padding: '64px', marginLeft: '128px', marginRight: '128px' }}>
+        <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={2}
+            sx={{
+              marginBottom: '48px'
+            }}
+        >
+          <Typography variant="h4">Створити новий тест</Typography>
+          <Button variant="contained" type="submit" color="success" disabled={!isValid}>
+            Створити тест
+          </Button>
+        </Stack>
+        <Stack
+            component="form"
+            flexDirection="column"
+            alignContent="center"
+            justifyContent="center"
+            spacing={3}
+            /*onSubmit={handleSubmit(onSubmit)}*/
+        >
+          <TextField
+              variant="standard"
+              placeholder="Введіть назву, наприклад, 'Історія України. Первісні часи'"
+              /*value={moduleName}
+              onChange={handleModuleNameChange}*/
+              sx={{ width: "40%", marginBottom: "1rem" }}
+              helperText="Назва"
+          />
+          <TextField
+              variant="standard"
+              placeholder="Додайте опис"
+              multiline
+              maxRows={4}
+              /*value={moduleDescription}
+              onChange={handleModuleDescriptionChange}*/
+              sx={{ width: "40%", marginBottom: "1rem" }}
+              helperText="Опис"
+          />
+        </Stack>
+        <Stack
+            sx={{
+              direction:"row",
+              alignItems:"center",
+              justifyContent:"space-between",
+              width: '100%',
+              marginTop: '16px',
+              marginBottom: '16px',
+            }}
+            direction="row"
+        >
+            <CategoryForm/>
+            <CustomSwitch
+              options={[
+                {
+                  label: "Публічний",
+                  value: true,
+                  imageIcon: <img src={PublicIcon} alt="Public" width="32" height="32" />,
+                },
+                {
+                  label: "Приватний",
+                  value: false,
+                  imageIcon: <img src={PrivateIcon} alt="Private" width="32" height="32" />,
+                },
+              ]}
+              onChange={(value) => {
+                // Обробка зміни значення перемикача тут
+                console.log("Значення перемикача:", value);
+              }}
+              size="small"
+          />
+        </Stack>
+      </Box>
   );
 }

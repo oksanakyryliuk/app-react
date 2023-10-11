@@ -6,7 +6,7 @@ import {apiGetTests} from "../common/services/test-service";
 import {TestCardList} from "../components/TestComponents/TestList";
 import {apiGetCategories} from "../common/services/category-service";
 import {Button} from '@mui/material'
-import {CreateTestForm} from "../components/TestComponents/TestForm";
+import {CreateTestForm} from "../components/TestComponents/ModalCreate/TestForm";
 
 export function GeneralTestsPage() {
 
