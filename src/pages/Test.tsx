@@ -10,11 +10,9 @@ import {
 import {FieldValues, useForm} from "react-hook-form";
 import PublicIcon from '../common/icons/icon-public-test.png';
 import PrivateIcon from '../common/icons/icon-private-test.png';
-import EditIcon from '../common/icons/edit.png';
 import CustomSwitch from "../common/components/CustomSwitch";
-import {Category} from "../common/types";
-import {apiGetCategories} from "../common/services/category-service";
-import {CategoryForm} from "../components/TestComponents/ModalMain/CategoryForm";
+import {CategoryForm} from "../components/TestComponents/MainForm/CategoryModal/CategoryForm";
+import {QuestionForm} from  '../components/TestComponents/MainForm/QuestionForm'
 
 export function TestPage() {
 
@@ -149,6 +147,9 @@ export function TestPage() {
               }}
               size="small"
           />
+        </Stack>
+        <Stack>
+            <QuestionForm />
         </Stack>
       </Box>
   );

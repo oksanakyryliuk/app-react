@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TestModal from './TestModal';
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 
 export function CreateTestForm() {
     const [open, setOpen] = useState(false);
@@ -8,9 +8,9 @@ export function CreateTestForm() {
     const handleClose = () => setOpen(false);
 
     return (
-        <div>
+        <Container>
             <Button onClick={handleOpen}>Create test</Button>
             <TestModal open={open} onClose={handleClose} />
-        </div>
+        </Container>
     );
 }

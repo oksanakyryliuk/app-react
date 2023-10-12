@@ -3,7 +3,6 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import StyledCategoryList from './StyledCategoryList';
 import { Stack } from "@mui/material";
 

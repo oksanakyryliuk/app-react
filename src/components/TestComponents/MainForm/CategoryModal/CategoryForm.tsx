@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CategoryModal }  from './CategoryModal';
 import { Button } from "@mui/material";
-import EditIcon from "../../../common/icons/edit.png";
+import EditIcon from "../../../../common/icons/edit.png";
 
 export function CategoryForm() {
     const [open, setOpen] = useState(false);

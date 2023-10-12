@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, List, ListItem, ListItemText, Stack } from '@mui/material';
 import FixedButtons from './FixedButtons';
-import { Category } from '../../../common/types';
-import { apiGetCategories } from '../../../common/services/category-service';
+import { Category } from '../../../../common/types';
+import { apiGetCategories } from '../../../../common/services/category-service';
 
 const StyledCategoryList = ({ open, onSave, onClose }: { open: boolean; onSave: (selectedCategories: string[]) => void; onClose: () => void }) => {
     const [selectedItems, setSelectedItems] = useState<number[]>([]);

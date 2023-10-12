@@ -55,6 +55,11 @@ export interface Category extends CategoryDTO {
   id: number;
 }
 
+export interface QuestionType {
+  id: number;
+  type: string;
+}
+
 export interface Organization {
   id: number;
   isActive: boolean;
