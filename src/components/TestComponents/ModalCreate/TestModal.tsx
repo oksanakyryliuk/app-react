@@ -103,7 +103,7 @@ function TestModal({ open, onClose }: TestModalProps) {
         >
             <Fade in={open}>
                 <Box sx={style}>
-                    <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '64px' }}>
+                    <Container style={{ display: 'flex', alignItems: 'center', paddingBottom: '64px' }}>
                         <Typography
                             id="test-modal-title"
                             variant="h6"
@@ -112,15 +112,15 @@ function TestModal({ open, onClose }: TestModalProps) {
                         >
                             Загальні відомості
                         </Typography>
-                        <div style={{ marginLeft: 'auto' }}>
+                        <Stack style={{ marginLeft: 'auto' }}>
                             <FormControlLabel
                                 control={
                                     <Switch checked={state.public} onChange={handleChange} name="public" />
                                 }
                                 label="Доступний усім"
                             />
-                        </div>
-                    </div>
+                        </Stack>
+                    </Container>
                     <Container maxWidth="sm" sx={{ height: '100%' }}>
                         <Stack
                             component="form"

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Container } from "@mui/material";
-import SelectIcon from "../../../common/icons/select.png";
+import SelectIcon from "../../../../common/icons/select.png";
 import ImageUploadModal from "./ImageUploadModal";
 
 export function ImageUploadForm() {

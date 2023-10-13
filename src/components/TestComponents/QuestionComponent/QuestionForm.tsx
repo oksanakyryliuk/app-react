@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from "../../../common/icons/plus.png";
-import { ImageUploadForm } from "./ImageUploadForm";
+import { ImageUploadForm } from "../MainForm/ImageUpload/ImageUploadForm";
 
 export function QuestionForm() {
     const [questionTypes, setQuestionTypes] = useState<{ id: number, type: string }[]>([]);

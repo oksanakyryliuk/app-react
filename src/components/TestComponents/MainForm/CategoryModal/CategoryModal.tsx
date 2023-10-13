@@ -23,14 +23,15 @@ const style = {
 interface CategoryModalProps {
     open: boolean;
     onClose: () => void;
+    onSaveCategories: (selectedCategories: string[]) => void; // Додайте цю властивість
 }
 
-const handleSaveCategories = (selectedCategories: string[]) => {
-    // Операція для збереження категорій
-    console.log("Saving selected categories:", selectedCategories);
-};
+export function CategoryModal({ open, onClose, onSaveCategories }: CategoryModalProps) { // Додайте onSaveCategories як аргумент
 
-export function CategoryModal({ open, onClose }: CategoryModalProps) {
+    const handleSaveCategories = (selectedCategories: string[]) => {
+        onSaveCategories(selectedCategories);
+        onClose();
+    };
 
     return (
         <Modal
@@ -47,24 +48,24 @@ export function CategoryModal({ open, onClose }: CategoryModalProps) {
             }}
         >
             <Fade in={open}>
-                    <Box sx={style}>
-                        <Typography
-                            variant="h6"
-                            component="h2"
-                            sx={{
-                                fontSize: '24px',
-                                fontWeight: 'bold',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                paddingBottom: '18px'
-                            }}
-                        >
-                            Категорії
-                        </Typography>
-                        <Stack>
-                            <StyledCategoryList open={open} onSave={handleSaveCategories} onClose={onClose} />
-                        </Stack>
-                    </Box>
+                <Box sx={style}>
+                    <Typography
+                        variant="h6"
+                        component="h2"
+                        sx={{
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            paddingBottom: '18px'
+                        }}
+                    >
+                        Категорії
+                    </Typography>
+                    <Stack>
+                        <StyledCategoryList open={open} onSave={handleSaveCategories} onClose={onClose} />
+                    </Stack>
+                </Box>
             </Fade>
         </Modal>
     );

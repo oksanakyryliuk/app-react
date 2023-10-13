@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { CategoryModal }  from './CategoryModal';
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import EditIcon from "../../../../common/icons/edit.png";
 
-export function CategoryForm() {
+interface CategoryFormProps {
+    onSaveCategories: (categories: string[]) => void;
+}
+
+export function CategoryForm({ onSaveCategories }: CategoryFormProps) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const handleSaveCategories = (selectedCategories: string[]) => {
+        onSaveCategories(selectedCategories);
+    };
+
     return (
-        <div>
+        <Stack>
             <Button
                 variant="outlined"
                 color="primary"
@@ -23,7 +31,7 @@ export function CategoryForm() {
             >
                 <span style={{ marginTop: '4px' }}>Категорії</span>
             </Button>
-            <CategoryModal open={open} onClose={handleClose} />
-        </div>
+            <CategoryModal open={open} onClose={handleClose} onSaveCategories={handleSaveCategories} />
+        </Stack>
     );
 }
