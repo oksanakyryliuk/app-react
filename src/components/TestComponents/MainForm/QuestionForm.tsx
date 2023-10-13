@@ -17,13 +17,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from "../../../common/icons/plus.png";
 import { ImageUploadForm } from "./ImageUploadForm";
 
-const cardStyle = {
-    marginTop: '10px',
-    padding: '10px',
-    backgroundColor: '#fafafa',
-    maxWidth: '100%',
-};
-
 export function QuestionForm() {
     const [questionTypes, setQuestionTypes] = useState<{ id: number, type: string }[]>([]);
     const [selectedValue, setSelectedValue] = useState<string>('');
@@ -51,7 +44,7 @@ export function QuestionForm() {
     };
 
     return (
-        <Card style={cardStyle}>
+        <Card>
             <CardContent>
                 <Stack
                     direction="row"

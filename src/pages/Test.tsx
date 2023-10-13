@@ -13,6 +13,8 @@ import PrivateIcon from '../common/icons/icon-private-test.png';
 import CustomSwitch from "../common/components/CustomSwitch";
 import {CategoryForm} from "../components/TestComponents/MainForm/CategoryModal/CategoryForm";
 import {QuestionForm} from  '../components/TestComponents/MainForm/QuestionForm'
+import StickyBox  from "react-sticky-box";
+import StickyContainer  from "react-sticky-box";
 
 export function TestPage() {
 
@@ -74,83 +76,107 @@ export function TestPage() {
   };
 
   return (
-      <Box sx={{ padding: '64px', marginLeft: '128px', marginRight: '128px' }}>
-        <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            spacing={2}
-            sx={{
-              marginBottom: '48px'
-            }}
-        >
-          <Typography variant="h4">Створити новий тест</Typography>
-          <Button variant="contained" type="submit" color="success" disabled={!isValid}>
-            Створити тест
-          </Button>
-        </Stack>
-        <Stack
-            component="form"
-            flexDirection="column"
-            alignContent="center"
-            justifyContent="center"
-            spacing={3}
-            /*onSubmit={handleSubmit(onSubmit)}*/
-        >
-          <TextField
-              variant="standard"
-              placeholder="Введіть назву, наприклад, 'Історія України. Первісні часи'"
-              /*value={moduleName}
-              onChange={handleModuleNameChange}*/
-              sx={{ width: "40%", marginBottom: "1rem" }}
-              helperText="Назва"
-          />
-          <TextField
-              variant="standard"
-              placeholder="Додайте опис"
-              multiline
-              maxRows={4}
-              /*value={moduleDescription}
-              onChange={handleModuleDescriptionChange}*/
-              sx={{ width: "40%", marginBottom: "1rem" }}
-              helperText="Опис"
-          />
-        </Stack>
-        <Stack
-            sx={{
-              direction:"row",
-              alignItems:"center",
-              justifyContent:"space-between",
-              width: '100%',
-              marginTop: '16px',
-              marginBottom: '16px',
-            }}
-            direction="row"
-        >
-            <CategoryForm/>
-            <CustomSwitch
-              options={[
-                {
-                  label: "Публічний",
-                  value: true,
-                  imageIcon: <img src={PublicIcon} alt="Public" width="32" height="32" />,
-                },
-                {
-                  label: "Приватний",
-                  value: false,
-                  imageIcon: <img src={PrivateIcon} alt="Private" width="32" height="32" />,
-                },
-              ]}
-              onChange={(value) => {
-                // Обробка зміни значення перемикача тут
-                console.log("Значення перемикача:", value);
+      <StickyContainer>
+          <StickyBox
+              offsetTop={0}
+              offsetBottom={0}
+              style={{
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  background: 'white',
+                  zIndex: 1, // Забезпечує, що StickyBox перекриватиме інші елементи
+                  padding: '20px',
+                  margin: '10px',
+                  borderRadius: '10px',
+                  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
               }}
-              size="small"
-          />
-        </Stack>
-        <Stack>
-            <QuestionForm />
-        </Stack>
-      </Box>
+          >
+              <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  spacing={2}
+              >
+                  <Typography variant="h4">Створити новий тест</Typography>
+                  <Button variant="contained" type="submit" color="success" disabled={!isValid}>
+                      Створити тест
+                  </Button>
+              </Stack>
+          </StickyBox>
+          <StickyBox
+              style={{
+                  background: 'white',
+                  paddingBlock: '24px',
+                  paddingInline: '68px',
+                  margin: '10px',
+                  borderRadius: '10px',
+                  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
+              }}>
+              <Stack
+                  component="form"
+                  flexDirection="column"
+                  alignContent="center"
+                  justifyContent="center"
+                  spacing={3}
+                  /*onSubmit={handleSubmit(onSubmit)}*/
+              >
+                  <TextField
+                      variant="standard"
+                      placeholder="Введіть назву, наприклад, 'Історія України. Первісні часи'"
+                      /*value={moduleName}
+                      onChange={handleModuleNameChange}*/
+                      sx={{ width: "40%", marginBottom: "1rem" }}
+                      helperText="Назва"
+                  />
+                  <TextField
+                      variant="standard"
+                      placeholder="Додайте опис"
+                      multiline
+                      maxRows={4}
+                      /*value={moduleDescription}
+                      onChange={handleModuleDescriptionChange}*/
+                      sx={{ width: "40%", marginBottom: "1rem" }}
+                      helperText="Опис"
+                  />
+              </Stack>
+              <Stack
+                  sx={{
+                      direction:"row",
+                      alignItems:"center",
+                      justifyContent:"space-between",
+                      width: '100%',
+                      marginTop: '16px',
+                      marginBottom: '16px',
+                  }}
+                  direction="row"
+              >
+                  <CategoryForm/>
+                  <CustomSwitch
+                      options={[
+                          {
+                              label: "Публічний",
+                              value: true,
+                              imageIcon: <img src={PublicIcon} alt="Public" width="32" height="32" />,
+                          },
+                          {
+                              label: "Приватний",
+                              value: false,
+                              imageIcon: <img src={PrivateIcon} alt="Private" width="32" height="32" />,
+                          },
+                      ]}
+                      onChange={(value) => {
+                          // Обробка зміни значення перемикача тут
+                          console.log("Значення перемикача:", value);
+                      }}
+                      size="small"
+                  />
+              </Stack>
+              <Stack>
+                  <QuestionForm />
+              </Stack>
+          </StickyBox>
+      </StickyContainer>
   );
 }
