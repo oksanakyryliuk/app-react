@@ -1,4 +1,4 @@
-import { AuthResponse, LoggedInUser, LoginDTO, User, RegisterDTO } from '../types';
+import {AuthResponse, LoggedInUser, LoginDTO, User, RegisterDTO, ResetPasswordDTO, ForgotPasswordDTO} from '../types';
 import { httpClient } from '../http-client';
 
 
@@ -26,6 +26,23 @@ export function apiRegister(data: RegisterDTO) {
     data,
   }).then(({ data }) => data);
 }
+
+export function apiResetPassword(data: ResetPasswordDTO) {
+  return httpClient<any>({
+    method: 'post',
+    url: 'Auth/reset-password',
+    data,
+  }).then(({ data }) => data);
+}
+
+export function apiForgotPassword(data: ForgotPasswordDTO) {
+  return httpClient<any>({
+    method: 'post',
+    url: 'Auth/forgot-password',
+    params: data,
+  }).then(({ data }) => data);
+}
+
 
 
 

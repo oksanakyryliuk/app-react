@@ -3,6 +3,22 @@ export interface LoginDTO {
   password: string
 }
 
+export interface ResetPasswordUserDTO {
+  password: string;
+  confirmPassword:string;
+}
+
+export interface ResetPasswordDTO {
+  email: string;
+  token: string;
+  password: string;
+  confirmPassword:string;
+
+}
+
+export interface ForgotPasswordDTO {
+  email: string;
+}
 export interface RegisterDTO {
   email: string;
   password: string;

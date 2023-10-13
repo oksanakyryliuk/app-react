@@ -1,5 +1,5 @@
-import { LoginDTO, RegisterDTO, ServerError } from '../../common/types';
-import {apiLogin, apiRegister} from '../../common/services/auth-service';
+import {ForgotPasswordDTO, LoginDTO, RegisterDTO, ResetPasswordDTO, ServerError} from '../../common/types';
+import {apiForgotPassword, apiLogin, apiRegister, apiResetPassword} from '../../common/services/auth-service';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AppModules } from '../../enums/AppModules';
@@ -30,7 +30,6 @@ export function useAuth() {
 
 
         const registerUser = (data: RegisterDTO) => {
-            console.log(data)
             apiRegister(data)
                 .then(() => {
                     toast.success('Registered successfully')
@@ -41,12 +40,36 @@ export function useAuth() {
                 });
         };
 
+    const resetPassword= (data: ResetPasswordDTO) => {
+        console.log(data)
+        apiResetPassword(data)
+            .then(() => {
+                toast.success('Reset password successfully')
+                console.log("reset ")
+            })
+            .catch(({ response }: AxiosError<ServerError>) => {
+                toast.error(`Error message: ${response?.data.message}`);
+            });
+    };
+
+    const forgotPassword= (data: ForgotPasswordDTO) => {
+        console.log(data)
+        apiForgotPassword(data)
+            .then(() => {
+                toast.success('Sent link on email successfully')
+                console.log("sent link ")
+            })
+            .catch(({ response }: AxiosError<ServerError>) => {
+                console.log("error ")
+                toast.error(`Error message: ${response?.data.message}`);
+            });
+    };
 
   const logout = () => {
     setToken('');
     navigate(AppModules.Login);
   };
 
-  return { login,registerUser, logout, isLoggedIn, token };
+  return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token };
 }
 
