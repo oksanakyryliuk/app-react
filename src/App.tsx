@@ -38,6 +38,7 @@ const router = createBrowserRouter(
 function App() {
   return (
       <ThemeProvider theme={muiDarkTheme}>
+          <ToastContainer theme="colored"></ToastContainer>
         <CssBaseline />
         <RouterProvider router={router} />
       </ThemeProvider>
