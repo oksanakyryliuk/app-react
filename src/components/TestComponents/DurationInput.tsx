@@ -4,9 +4,10 @@ import { TextField, InputAdornment } from '@mui/material';
 
 interface DurationInputProps {
     register: UseFormRegister<FieldValues>;
+    value?: number;
 }
 
-function DurationInput({ register }: DurationInputProps) {
+function DurationInput({ register, value }: DurationInputProps) {
     return (
         <div>
             <TextField
@@ -19,8 +20,9 @@ function DurationInput({ register }: DurationInputProps) {
                 }}
                 {...register('duration', {
                     required: true,
-                    validate: (value) => parseInt(value) <= 360,
+                    validate: (val) => val === undefined || (parseInt(val) >= 0 && parseInt(val) <= 360),
                 })}
+                value={value || ''}
             />
         </div>
     );

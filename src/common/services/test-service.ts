@@ -1,7 +1,5 @@
-
 import { httpClient } from '../http-client';
-import {AuthResponse, TestDTO, Test, User, Category} from "../types";
-
+import { TestDTO, Test, User, Category } from "../types";
 
 export function apiCreateTest(data: TestDTO)  {
     return httpClient<User>({
@@ -19,24 +17,31 @@ export function apiCreateTest(data: TestDTO)  {
 
 }
 
-export function apiUpdateTest(id: number, data: TestDTO)  {
-    return httpClient<User>({
+export async function apiUpdateTest(id: number, data: TestDTO) {
+    const response = await httpClient<User>({
         method: 'put',
         url: `Test/${id}`,
         data,
-    })
-        .then((response) => {
-            console.log('Response from apiUpdateTest:', response);
-
-            return response.data;
-        });
+    });
+    console.log('Response from apiUpdateTest:', response);
+    return response.data;
 }
 
 
-export const apiGetTests = (): Promise<Test[]> => {
-    return httpClient<Test[]>({
+export const apiGetTests = async (): Promise<Test[]> => {
+    const {data} = await httpClient<Test[]>({
         method: 'get',
         url: 'Test',
-    }).then(({ data }) => data);
+    });
+    return data;
 };
 
+export const apiGetTestById = async (id: number): Promise<Test> => {
+    const response = await httpClient.get<Test>(`Test/${id}`);
+    return response.data;
+};
+
+export const apiGetCategoriesForTest = async (id: number): Promise<Category[]> => {
+    const response = await httpClient.get<Category[]>(`/TestCategory/${id}`);
+    return response.data;
+};

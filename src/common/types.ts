@@ -12,12 +12,12 @@ export interface CategoryDTO {
   title: string;
 }
 export interface TestDTO {
-  Title: string;
-  Description: string;
-  Duration: number;
-  Categories: string[];
-  IsPublic: boolean;
-  Status: string;
+  title: string;
+  description: string;
+  duration: number;
+  categories: string[];
+  isPublic: boolean;
+  status: string;
 }
 
 
