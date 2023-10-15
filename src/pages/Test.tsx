@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
     Stack,
     TextField,
     Button,
-    Typography,
-    Container,
+    Typography, InputAdornment,
 } from '@mui/material';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import PublicIcon from '../common/icons/icon-public-test.png';
@@ -15,9 +14,8 @@ import { CategoryForm } from '../components/TestComponents/MainForm/CategoryModa
 import { QuestionForm } from '../components/TestComponents/QuestionComponent/QuestionForm';
 import StickyBox from 'react-sticky-box';
 import StickyContainer from 'react-sticky-box';
-import {Test, TestDTO} from '../common/types';
-import DurationInput from '../components/TestComponents/ModalCreate/DurationInput';
-import {apiCreateTest, apiUpdateTest} from "../common/services/test-service";
+import { TestDTO } from '../common/types';
+import { apiGetTestById, apiUpdateTest } from '../common/services/test-service';
 
 export function TestPage() {
     const { testId } = useParams();
@@ -25,29 +23,47 @@ export function TestPage() {
     const [state, setState] = useState({
         public: true,
     });
-    const [categoryList, setCategoryList] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const navigate = useNavigate();
+    const [testData, setTestData] = useState<TestDTO>({
+        title: '',
+        description: '',
+        duration: 0,
+        categories: [],
+        isPublic: true,
+        status: 'Created',
+    });
+
+    useEffect(() => {
+        if (testId) {
+            apiGetTestById(parseInt(testId))
+                .then((data) => {
+                    setTestData(data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching test data', error);
+                });
+        }
+    }, [testId]);
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (testId == null) return;
 
-        const testData: TestDTO = {
-            Title: data.title,
-            Description: data.description,
-            Duration: data.duration,
-            Categories: selectedCategories,
-            IsPublic: state.public,
-            Status: 'Created',
+        const updatedTestData: TestDTO = {
+            ...testData,
+            title: data.title,
+            description: data.description,
+            duration: data.duration,
+            categories: selectedCategories,
+            isPublic: state.public,
+            status: 'Created',
         };
-        console.log(testData);
 
-        apiUpdateTest(parseInt(testId), testData)
+        apiUpdateTest(parseInt(testId), updatedTestData)
             .then((response: any) => {
                 console.log(response);
-                navigate(`/test`);
+                navigate('/test');
             });
-
     };
 
     const onSaveCategories = (categories: string[]) => {
@@ -103,9 +119,35 @@ export function TestPage() {
                                 sx={{ width: '40%', marginBottom: '1rem' }}
                                 helperText="Назва"
                                 {...register('title', { required: true })}
+                                value={testData.title}
+                                onChange={(event) => {
+                                    setTestData((prevTestData) => ({
+                                        ...prevTestData,
+                                        title: event.target.value,
+                                    }));
+                                }}
                             />
                             <Stack style={{ marginLeft: 'auto' }}>
-                                <DurationInput register={register} />
+                                <TextField
+                                    label="Час на виконання"
+                                    variant="outlined"
+                                    autoFocus
+                                    type="number"
+                                    value={testData.duration}
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">хв</InputAdornment>,
+                                    }}
+                                    {...register('duration', {
+                                        required: true,
+                                        validate: (value) => parseInt(value) <= 360,
+                                    })}
+                                        onChange={(event) => {
+                                        setTestData((prevTestData) => ({
+                                        ...prevTestData,
+                                        duration: parseInt(event.target.value),
+                                        }));
+                                    }}
+                                />
                             </Stack>
                         </Stack>
                         <TextField
@@ -116,6 +158,13 @@ export function TestPage() {
                             sx={{ width: '40%', marginBottom: '1rem' }}
                             helperText="Опис"
                             {...register('description')}
+                            value={testData.description}
+                            onChange={(event) => {
+                                setTestData((prevTestData) => ({
+                                    ...prevTestData,
+                                    description: event.target.value,
+                                }));
+                            }}
                         />
                     </Stack>
                     <Stack
@@ -134,12 +183,12 @@ export function TestPage() {
                             options={[
                                 {
                                     label: 'Публічний',
-                                    value: true,
+                                    value: testData.isPublic,
                                     imageIcon: <img src={PublicIcon} alt="Public" width="32" height="32" />,
                                 },
                                 {
                                     label: 'Приватний',
-                                    value: false,
+                                    value: !testData.isPublic,
                                     imageIcon: <img src={PrivateIcon} alt="Private" width="32" height="32" />,
                                 },
                             ]}

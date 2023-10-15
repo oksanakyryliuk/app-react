@@ -67,12 +67,12 @@ function TestModal({ open, onClose }: TestModalProps) {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const testData: TestDTO = {
-            Title: data.title,
-            Description: data.description,
-            Duration: data.duration,
-            Categories: categoryTitle,
-            IsPublic : state.public,
-            Status: 'Draft'
+            title: data.title,
+            description: data.description,
+            duration: data.duration,
+            categories: categoryTitle,
+            isPublic : state.public,
+            status: 'Draft'
         };
         apiCreateTest(testData)
             .then((response: any) => {
