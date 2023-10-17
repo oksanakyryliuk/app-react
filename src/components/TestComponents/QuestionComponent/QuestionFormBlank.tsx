@@ -23,7 +23,7 @@ export function QuestionFormBlank() {
     const [showBlanks, setShowBlanks] = useState(false);
 
     const parseTextForBlanks = (text: string) => {
-        const regex = /[(.*?)]/g;
+        const regex = /\[(.*?)\]/g;
         const matches = [];
         let match;
 
@@ -32,6 +32,7 @@ export function QuestionFormBlank() {
         }
 
         const newBlanks = matches.map((text) => ({ text, caseSensitive: false }));
+        console.log(blanks);
         setBlanks(newBlanks);
     };
 
@@ -80,7 +81,7 @@ export function QuestionFormBlank() {
                                     variant="standard"
                                     multiline
                                     maxRows={4}
-                                    placeholder="Введіть запитання, наприклад, 'В добу [палеоліту] з'явились перші поселення на території України."
+                                    placeholder="Введіть запитання, наприклад, 'В добу [палеоліту] з'явились перші поселення на території України.'"
                                     helperText="Запитання"
                                     value={question}
                                     onChange={handleQuestionChange}

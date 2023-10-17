@@ -73,7 +73,7 @@ export function QuestionFormBinary() {
                                 <TextField
                                     variant="standard"
                                     fullWidth
-                                    //value={option.label}
+                                    value={option.label}
                                     placeholder="Додайте варіант відповіді"
                                     multiline
                                     maxRows={4}
