@@ -4,18 +4,19 @@ import {
     Stack,
     TextField,
     Button,
-    Typography, InputAdornment,
+    Typography,
+    InputAdornment,
 } from '@mui/material';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import PublicIcon from '../common/icons/icon-public-test.png';
 import PrivateIcon from '../common/icons/icon-private-test.png';
 import CustomSwitch from '../common/components/CustomSwitch';
 import { CategoryForm } from '../components/TestComponents/MainForm/CategoryModal/CategoryForm';
-import { QuestionForm } from '../components/TestComponents/QuestionComponent/QuestionForm';
 import StickyBox from 'react-sticky-box';
 import StickyContainer from 'react-sticky-box';
 import { TestDTO } from '../common/types';
 import { apiGetTestById, apiUpdateTest } from '../common/services/test-service';
+import {QuestionSelect} from "../components/TestComponents/MainForm/QuestionSelect";
 
 export function TestPage() {
     const { testId } = useParams();
@@ -79,12 +80,12 @@ export function TestPage() {
                     top: 0,
                     left: 0,
                     right: 0,
-                    background: 'white',
                     zIndex: 1,
                     padding: '20px',
                     margin: '10px',
                     borderRadius: '10px',
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: "white"
                 }}
             >
                 <Stack
@@ -99,14 +100,14 @@ export function TestPage() {
                     </Button>
                 </Stack>
             </StickyBox>
-            <StickyBox
+            <Stack
                 style={{
-                    background: 'white',
                     paddingBlock: '24px',
                     paddingInline: '68px',
                     margin: '10px',
                     borderRadius: '10px',
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    position: 'relative'
                 }}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -151,7 +152,8 @@ export function TestPage() {
                         </Stack>
                         <TextField
                             variant="standard"
-                            placeholder="Додайте опис"
+                            placeholder="Додайте опис    (опціонально)
+                            "
                             multiline
                             maxRows={4}
                             sx={{ width: '40%', marginBottom: '1rem' }}
@@ -198,10 +200,10 @@ export function TestPage() {
                         />
                     </Stack>
                 </form>
-                <Stack>
-                    <QuestionForm />
-                </Stack>
-            </StickyBox>
+            </Stack>
+            <Stack>
+                <QuestionSelect />
+            </Stack>
         </StickyContainer>
     );
 }

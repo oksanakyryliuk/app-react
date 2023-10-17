@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container } from "@mui/material";
-import SelectIcon from "../../../../common/icons/select.png";
 import ImageUploadModal from "./ImageUploadModal";
+import {CloudUploadIcon} from "evergreen-ui";
 
 export function ImageUploadForm() {
     const [open, setOpen] = useState(false);
@@ -11,16 +11,14 @@ export function ImageUploadForm() {
     return (
         <Container>
             <Button
-                variant="outlined"
+                component="label"
+                variant="contained"
                 color="primary"
                 size="small"
-                sx={{
-                    marginInline: '18px'
-                }}
-                startIcon={<img src={SelectIcon} alt="SelectIcon" width="20px" />}
+                startIcon={<CloudUploadIcon />}
                 onClick={handleOpen}
             >
-                Додати Фотографію
+                Завантажити фото
             </Button>
             <ImageUploadModal open={open} onClose={handleClose} />
         </Container>
