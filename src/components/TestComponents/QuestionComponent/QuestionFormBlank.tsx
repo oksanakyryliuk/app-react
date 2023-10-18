@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     Card,
@@ -11,35 +11,33 @@ import { ImageUploadForm } from '../MainForm/ImageUpload/ImageUploadForm';
 import NextIcon from '../../../common/icons/right-arrow.png';
 import { Alert } from 'evergreen-ui';
 import { BlankForm } from './BlankForm';
+import {QuestionDto} from "../../../common/types";
 
 export function QuestionFormBlank() {
-    const [question, setQuestion] = useState('');
-    const [blanks, setBlanks] = useState([
-        {
-            text: '',
-            caseSensitive: false,
-        }
-    ]);
+    const [formData, setFormData] = useState<QuestionDto>({
+        type: 'blank',
+        question: '',
+        description: '',
+        q_image: null,
+        options: [],
+    });
+
     const [showBlanks, setShowBlanks] = useState(false);
 
-    const parseTextForBlanks = (text: string) => {
-        const regex = /\[(.*?)\]/g;
-        const matches = [];
-        let match;
-
-        while ((match = regex.exec(text))) {
-            matches.push(match[1]);
-        }
-
-        const newBlanks = matches.map((text) => ({ text, caseSensitive: false }));
-        console.log(blanks);
-        setBlanks(newBlanks);
+    // Функція для зміни даних питання
+    const handleQuestionChange = (value: string) => {
+        setFormData((prevData) => ({ ...prevData, question: value }));
     };
 
-    const handleQuestionChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const newQuestion = e.target.value;
-        setQuestion(newQuestion);
-        parseTextForBlanks(newQuestion);
+    // Функція для зміни опису
+    const handleDescriptionChange = (value: string) => {
+        setFormData((prevData) => ({ ...prevData, description: value }));
+    };
+
+    // Функція для створення JSON-об'єкта зі зібраними даними
+    const createJSON = () => {
+        //formData.question = formData.question.replace(/\[([^\]]+)\]/g, "___________");
+        console.log(formData); // Виведе JSON-об'єкт у консоль
     };
 
     return (
@@ -63,7 +61,9 @@ export function QuestionFormBlank() {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm />
+                            <ImageUploadForm onFileUpload={(image) => {
+                                setFormData((prevData) => ({ ...prevData, q_image: image }));
+                            }} />
                         </Stack>
                     </Stack>
                     {!showBlanks ? (
@@ -83,8 +83,8 @@ export function QuestionFormBlank() {
                                     maxRows={4}
                                     placeholder="Введіть запитання, наприклад, 'В добу [палеоліту] з'явились перші поселення на території України.'"
                                     helperText="Запитання"
-                                    value={question}
-                                    onChange={handleQuestionChange}
+                                    value={formData.question}
+                                    onChange={(e) => handleQuestionChange(e.target.value)}
                                     sx={{ width: '80%', marginInline: '24px' }}
                                 />
                             </Container>
@@ -95,7 +95,8 @@ export function QuestionFormBlank() {
                                     maxRows={4}
                                     placeholder="Додайте коментарі, наприклад, 'Вставте одне слово на місці пропуску.'    (опціонально)"
                                     helperText="Опис"
-                                    //onChange={(e) => setQuestion(e.target.value)}
+                                    value={formData.description}
+                                    onChange={(e) => handleDescriptionChange(e.target.value)}
                                     sx={{ width: '80%', marginInline: '24px' }}
                                 />
                                 <Button
@@ -116,12 +117,20 @@ export function QuestionFormBlank() {
                         </Container>
                     ) : (
                         <BlankForm
-                            question={question}
-                            blanks={blanks}
-                            setShowBlanks={() => setShowBlanks(false) as unknown as Dispatch<SetStateAction<boolean>>}
+                            question={formData.question}
+                            setShowBlanks={() => setShowBlanks(false)}
+                            options={formData.options}
+                            onOptionsChange={(newOptions) => {
+                                setFormData((prevData) => ({
+                                    ...prevData,
+                                    options: newOptions,
+                                }));
+                            }}
                         />
+
                     )}
                 </CardContent>
+                <Button onClick={createJSON}>Зберегти</Button>
             </Card>
         </Container>
     );

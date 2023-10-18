@@ -1,22 +1,64 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
+    Button,
     Card,
     CardContent,
     Container,
+    InputAdornment,
     InputLabel,
-    TextField,
     Stack,
-    InputAdornment
+    TextField,
+    //Radio
 } from '@mui/material';
-import { ImageUploadForm } from "../MainForm/ImageUpload/ImageUploadForm";
-import { Radio } from "evergreen-ui";
+import {ImageUploadForm} from "../MainForm/ImageUpload/ImageUploadForm";
+import {QuestionDto} from "../../../common/types";
+import {Radio} from "evergreen-ui";
 
 export function QuestionFormBinary() {
-    const [question, setQuestion] = useState('');
-    const [options] = React.useState([
-        { label: 'Правда', value: 'True' },
-        { label: 'Брехня', value: 'False' },
-    ])
+    const [formData, setFormData] = useState<QuestionDto>({
+        type: "binary",
+        question: '',
+        description: '',
+        q_image: null,
+        options: [
+            { text: '', a_image: null, isCorrect: false, isStrictText: false },
+            { text: '', a_image: null, isCorrect: false, isStrictText: false },
+        ],
+    });
+
+    const [options, setOptions] = React.useState([
+        { text: 'Правда', isCorrect: false, isStrictText: false, a_image: null },
+        { text: 'Брехня', isCorrect: false, isStrictText: false, a_image: null },
+    ]);
+
+    const handleRadioChange = (index: number) => {
+        const updatedOptions = options.map((option, i) => ({
+            ...option,
+            isCorrect: i === index,
+        }));
+
+        setOptions(updatedOptions); // Оновлюємо options
+        formData.options = updatedOptions;
+        setFormData((prevData) => ({
+            ...prevData,
+            options: updatedOptions,
+        }));
+    };
+
+    // Функція для зміни даних питання
+    const handleQuestionChange = (value: string) => {
+        setFormData((prevData) => ({ ...prevData, question: value }));
+    };
+
+    // Функція для зміни опису
+    const handleDescriptionChange = (value: string) => {
+        setFormData((prevData) => ({ ...prevData, description: value }));
+    };
+
+    // Функція для створення JSON-об'єкта зі зібраними даними
+    const createJSON = () => {
+        console.log(formData); // Виведе JSON-об'єкт у консоль
+    };
 
     return (
         <Container sx={{marginBlock:"16px"}}>
@@ -39,7 +81,9 @@ export function QuestionFormBinary() {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm />
+                            <ImageUploadForm onFileUpload={(image) => {
+                                setFormData((prevData) => ({ ...prevData, q_image: image }));
+                            }} />
                         </Stack>
                     </Stack>
                     <Container sx={{ margin: '32px' }}>
@@ -49,8 +93,8 @@ export function QuestionFormBinary() {
                             maxRows={4}
                             placeholder="Введіть запитання, наприклад, 'Правда чи брехня: Перші поселення на території України з'явились в добу каменю.'"
                             helperText="Запитання"
-                            //value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
+                            value={formData.question}
+                            onChange={(e) => handleQuestionChange(e.target.value)}
                             sx={{ width: "80%", marginInline: "24px" }}
                         />
                     </Container>
@@ -61,8 +105,8 @@ export function QuestionFormBinary() {
                             maxRows={4}
                             placeholder="Додайте коментарі, наприклад, 'Виберіть правда або брехня.'    (опціонально)"
                             helperText="Опис"
-                            //value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
+                            value={formData.description}
+                            onChange={(e) => handleDescriptionChange(e.target.value)}
                             sx={{ width: "80%", marginInline: "24px" }}
                         />
                     </Container>
@@ -73,7 +117,7 @@ export function QuestionFormBinary() {
                                 <TextField
                                     variant="standard"
                                     fullWidth
-                                    value={option.label}
+                                    value={option.text}
                                     placeholder="Додайте варіант відповіді"
                                     multiline
                                     maxRows={4}
@@ -84,6 +128,8 @@ export function QuestionFormBinary() {
                                             <InputAdornment position="end">
                                                 <Radio
                                                     name="answerCorrect"
+                                                    checked={option.isCorrect}
+                                                    onChange={() => handleRadioChange(index)}
                                                 />
                                                 <InputLabel sx={{ margin: '1rem' }}>Правильна</InputLabel>
                                             </InputAdornment>
@@ -94,6 +140,7 @@ export function QuestionFormBinary() {
                         ))}
                     </Container>
                 </CardContent>
+                <Button onClick={createJSON}>Зберегти</Button>
             </Card>
         </Container>
     );

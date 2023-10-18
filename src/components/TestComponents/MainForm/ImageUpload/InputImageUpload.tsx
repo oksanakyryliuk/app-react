@@ -2,7 +2,11 @@ import {FileCard, Pane, FileUploader, Alert} from 'evergreen-ui';
 import React, { useState } from 'react';
 import {Container} from "@mui/material";
 
-function ImageUpload() {
+interface ImageUploadProps {
+    onFileUpload: (file: File | null) => void;
+}
+
+function ImageUpload({ onFileUpload }: ImageUploadProps) {
     const [files, setFiles] = useState<File[]>([]);
     const [fileRejections, setFileRejections] = useState<any[]>([]);
 
@@ -16,18 +20,20 @@ function ImageUpload() {
             if (allowedExtensions.includes(file.type)) {
                 setFiles([file]);
                 setShowAlert(false);
+                onFileUpload(file); // Виклик функції, щоб передати завантажений файл батьківському компоненту
             } else {
                 setFileRejections([{ file, message: 'Дозволено завантажувати лише зображення' }]);
                 setShowAlert(true);
             }
         }
-    }, []);
+    }, [onFileUpload]);
 
     const handleRemove = React.useCallback(() => {
         setFiles([]);
         setFileRejections([]);
         setShowAlert(false);
-    }, []);
+        onFileUpload(null); // Передача null, коли файл видаляється
+    }, [onFileUpload]);
 
     return (
         <Pane maxWidth={654}>

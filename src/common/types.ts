@@ -20,6 +20,18 @@ export interface TestDTO {
   status: string;
 }
 
+export interface QuestionDto {
+  type: string;
+  question: string;
+  description: string;
+  q_image: File | null;
+  options: Array<{
+    text: string;
+    isCorrect: boolean;
+    isStrictText: boolean;
+    a_image: File | null;
+  }>;
+}
 
 export interface UserDTO {
   // firstName: string;

@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
     Button,
     Container,
@@ -12,11 +12,44 @@ import PrevIcon from "../../../common/icons/left-arrow.png";
 
 interface BlankFormProps {
     question: string;
-    blanks: { text: string; caseSensitive: boolean }[];
-    setShowBlanks: (show: boolean) => Dispatch<SetStateAction<boolean>>;
+    setShowBlanks: Dispatch<SetStateAction<boolean>>;
+    options: Blank[];
+    onOptionsChange: (options: Blank[]) => void;
 }
 
-export function BlankForm({ question, blanks, setShowBlanks }: BlankFormProps) {
+interface Blank {
+    text: string,
+    isStrictText: boolean,
+    isCorrect: boolean,
+    a_image: File | null,
+}
+
+export function BlankForm({ question, setShowBlanks, options, onOptionsChange }: BlankFormProps) {
+    const [blanks, setBlanks] = useState<Blank[]>(options);
+    const replaceBlank = question.replace(/\[([^\]]+)\]/g, "___________");
+
+    useEffect(() => {
+        const parseTextForBlanks = (text: string) => {
+            const regex = /\[([^\]]+)\]/g;
+            const matches = [];
+            let match;
+
+            while ((match = regex.exec(text))) {
+                matches.push(match[1]);
+            }
+
+            const newBlanks = matches.map((text) => ({
+                text,
+                isStrictText: false,
+                isCorrect: false, // Початкове значення isCorrect
+                a_image: null,    // Початкове значення a_image
+            }));
+            setBlanks(newBlanks);
+            onOptionsChange(newBlanks); // Оновлення options у головному компоненті
+        };
+
+        parseTextForBlanks(question);
+    }, [question]);
 
     return (
         <Container>
@@ -26,7 +59,7 @@ export function BlankForm({ question, blanks, setShowBlanks }: BlankFormProps) {
                     multiline
                     maxRows={4}
                     helperText="Запитання"
-                    value={question}
+                    value={replaceBlank}
                     sx={{ width: "80%", marginInline: "24px" }}
                 />
             </Container>
@@ -46,10 +79,16 @@ export function BlankForm({ question, blanks, setShowBlanks }: BlankFormProps) {
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <Checkbox size="small" />
-                                        <InputLabel>
-                                            Враховувати регістр
-                                        </InputLabel>
+                                        <Checkbox
+                                            size="small"
+                                            checked={option.isStrictText}
+                                            onChange={() => {
+                                                const updatedBlanks = [...blanks];
+                                                updatedBlanks[index].isStrictText = !option.isStrictText;
+                                                setBlanks(updatedBlanks);
+                                            }}
+                                        />
+                                        <InputLabel>Враховувати регістр</InputLabel>
                                     </InputAdornment>
                                 ),
                             }}
@@ -59,15 +98,13 @@ export function BlankForm({ question, blanks, setShowBlanks }: BlankFormProps) {
             </Container>
             <Button
                 variant="contained"
-                startIcon={
-                    <img src={PrevIcon} alt="continue"/>
-                }
+                startIcon={<img src={PrevIcon} alt="continue" />}
                 size="small"
                 sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    margin: '18px',
-                    ml: 'auto',
+                    display: "flex",
+                    alignItems: "center",
+                    margin: "18px",
+                    ml: "auto",
                 }}
                 onClick={() => {
                     setShowBlanks(false);

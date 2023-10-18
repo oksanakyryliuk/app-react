@@ -3,8 +3,8 @@ import ImageUpload from './InputImageUpload';
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
-import {Button} from "evergreen-ui";
-import {Container} from "@mui/material";
+import { Button } from "evergreen-ui";
+import { Container } from "@mui/material";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -27,17 +27,25 @@ const buttonContainerStyle = {
 interface ImageUploadModalProps {
     open: boolean;
     onClose: () => void;
+    onFileUpload: (file: File | null) => void;
 }
 
-const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ open, onClose }) => {
+const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ open, onClose, onFileUpload }) => {
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
     const onCancel = () => {
-        console.log('Uploading photo was canceled.');
+        console.log('Завантаження скасовано.');
         onClose();
     };
 
     const onSubmit = () => {
-        console.log('Uploading photo was upload.');
+        if (uploadedFile) {
+            console.log('Завантажений файл:', uploadedFile);
+            onFileUpload(uploadedFile);
+        } else {
+            console.log('Помилка опрацювання файлу.');
+        }
+        onClose();
     };
 
     return (
@@ -45,12 +53,12 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ open, onClose }) =>
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={open}
-            onClose={onClose}
+            onClose={onCancel}
             closeAfterTransition
         >
             <Fade in={open}>
                 <Box sx={style}>
-                    <ImageUpload />
+                    <ImageUpload onFileUpload={setUploadedFile} />
                     <Container style={buttonContainerStyle}>
                         <Button marginRight={16} onClick={onSubmit} intent="success">
                             Завантажити
