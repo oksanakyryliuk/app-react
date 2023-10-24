@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import PrevIcon from "../../../common/icons/left-arrow.png";
+import {FileDTO} from "../../../common/types";
 
 interface BlankFormProps {
     question: string;
@@ -21,7 +22,7 @@ interface Blank {
     text: string,
     isStrictText: boolean,
     isCorrect: boolean,
-    a_image: File | null,
+    a_image: FileDTO | null,
 }
 
 export function BlankForm({ question, setShowBlanks, options, onOptionsChange }: BlankFormProps) {
@@ -44,6 +45,7 @@ export function BlankForm({ question, setShowBlanks, options, onOptionsChange }:
                 isCorrect: false, // Початкове значення isCorrect
                 a_image: null,    // Початкове значення a_image
             }));
+
             setBlanks(newBlanks);
             onOptionsChange(newBlanks); // Оновлення options у головному компоненті
         };

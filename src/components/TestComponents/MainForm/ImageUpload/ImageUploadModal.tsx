@@ -5,6 +5,7 @@ import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import { Button } from "evergreen-ui";
 import { Container } from "@mui/material";
+import {FileDTO} from "../../../../common/types";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -27,11 +28,11 @@ const buttonContainerStyle = {
 interface ImageUploadModalProps {
     open: boolean;
     onClose: () => void;
-    onFileUpload: (file: File | null) => void;
+    onFileUpload: (file: FileDTO | null) => void;
 }
 
-const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ open, onClose, onFileUpload }) => {
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+export function ImageUploadModal ({ open, onClose, onFileUpload }: ImageUploadModalProps) {
+    const [uploadedFile, setUploadedFile] = useState<FileDTO | null>(null);
 
     const onCancel = () => {
         console.log('Завантаження скасовано.');
@@ -40,7 +41,6 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ open, onClose, onFi
 
     const onSubmit = () => {
         if (uploadedFile) {
-            console.log('Завантажений файл:', uploadedFile);
             onFileUpload(uploadedFile);
         } else {
             console.log('Помилка опрацювання файлу.');
@@ -71,6 +71,4 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ open, onClose, onFi
             </Fade>
         </Modal>
     );
-};
-
-export default ImageUploadModal;
+}

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-    Button,
     Card,
     CardContent,
     Container,
@@ -8,19 +7,22 @@ import {
     InputLabel,
     Stack,
     TextField,
-    //Radio
 } from '@mui/material';
 import {ImageUploadForm} from "../MainForm/ImageUpload/ImageUploadForm";
 import {QuestionDto} from "../../../common/types";
 import {Radio} from "evergreen-ui";
 
-export function QuestionFormBinary() {
+interface QuestionFormProps {
+    onSaveData: (formData: QuestionDto) => void;
+}
+
+export function QuestionFormBinary({ onSaveData }: QuestionFormProps) {
     const [formData, setFormData] = useState<QuestionDto>({
         type: "binary",
-        question: '',
+        title: '',
         description: '',
         q_image: null,
-        options: [
+        answers: [
             { text: '', a_image: null, isCorrect: false, isStrictText: false },
             { text: '', a_image: null, isCorrect: false, isStrictText: false },
         ],
@@ -37,27 +39,33 @@ export function QuestionFormBinary() {
             isCorrect: i === index,
         }));
 
-        setOptions(updatedOptions); // Оновлюємо options
-        formData.options = updatedOptions;
+        setOptions(updatedOptions);
+        formData.answers = updatedOptions;
         setFormData((prevData) => ({
             ...prevData,
-            options: updatedOptions,
+            answers: updatedOptions,
         }));
+
+        onSaveData(formData);
     };
 
     // Функція для зміни даних питання
     const handleQuestionChange = (value: string) => {
-        setFormData((prevData) => ({ ...prevData, question: value }));
+        setFormData((prevData) => ({ ...prevData, title: value }));
+
+        onSaveData(formData);
     };
 
     // Функція для зміни опису
     const handleDescriptionChange = (value: string) => {
         setFormData((prevData) => ({ ...prevData, description: value }));
+
+        onSaveData(formData);
     };
 
-    // Функція для створення JSON-об'єкта зі зібраними даними
-    const createJSON = () => {
-        console.log(formData); // Виведе JSON-об'єкт у консоль
+    //Генерація випадкового id для завантаження фотографії
+    const generateUniqueId = () => {
+        return `id-${Math.random().toString(36).substr(2, 9)}`;
     };
 
     return (
@@ -81,7 +89,7 @@ export function QuestionFormBinary() {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm onFileUpload={(image) => {
+                            <ImageUploadForm id={generateUniqueId()} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                             }} />
                         </Stack>
@@ -93,7 +101,7 @@ export function QuestionFormBinary() {
                             maxRows={4}
                             placeholder="Введіть запитання, наприклад, 'Правда чи брехня: Перші поселення на території України з'явились в добу каменю.'"
                             helperText="Запитання"
-                            value={formData.question}
+                            value={formData.title}
                             onChange={(e) => handleQuestionChange(e.target.value)}
                             sx={{ width: "80%", marginInline: "24px" }}
                         />
@@ -140,7 +148,6 @@ export function QuestionFormBinary() {
                         ))}
                     </Container>
                 </CardContent>
-                <Button onClick={createJSON}>Зберегти</Button>
             </Card>
         </Container>
     );

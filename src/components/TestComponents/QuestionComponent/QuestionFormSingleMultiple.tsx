@@ -8,62 +8,73 @@ import {
     InputAdornment,
     InputLabel,
     TextField,
-    Stack, Button,
+    Stack
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from "../../../common/icons/plus.png";
 import { ImageUploadForm } from "../MainForm/ImageUpload/ImageUploadForm";
 import { Radio } from "evergreen-ui";
-import { QuestionDto } from '../../../common/types';
+import {FileDTO, QuestionDto} from '../../../common/types';
 
 type QuestionType = 'single' | 'multiple';
 
 interface QuestionFormCommonProps {
     type: QuestionType;
+    onSaveData: (formData: QuestionDto) => void;
 }
 
-export function QuestionFormSingleMultiple({ type }: QuestionFormCommonProps) {
+export function QuestionFormSingleMultiple({ type, onSaveData }: QuestionFormCommonProps) {
     const [formData, setFormData] = useState<QuestionDto>({
         type: type,
-        question: '',
+        title: '',
         description: '',
         q_image: null,
-        options: [{ text: '', a_image: null, isCorrect: false, isStrictText: false }],
+        answers: [{ text: '', a_image: null, isCorrect: false, isStrictText: false }],
     });
 
     // Функція для зміни даних питання
     const handleQuestionChange = (value: string) => {
-        setFormData((prevData) => ({ ...prevData, question: value }));
+        setFormData((prevData) => ({ ...prevData, title: value }));
+
+        onSaveData(formData);
     };
 
     // Функція для зміни опису
     const handleDescriptionChange = (value: string) => {
         setFormData((prevData) => ({ ...prevData, description: value }));
+
+        onSaveData(formData);
     };
 
     // Функція для зміни тексту відповіді та чи вона правильна
-    const handleOptionChange = (index: number, text: string, isCorrect: boolean, isStrictText: boolean, a_image: File | null) => {
-        const updatedOptions = [...formData.options];
+    const handleOptionChange = (index: number, text: string, isCorrect: boolean, isStrictText: boolean, a_image: FileDTO | null) => {
+        const updatedOptions = [...formData.answers];
         updatedOptions[index] = { text, isCorrect, isStrictText, a_image };
-        setFormData((prevData) => ({ ...prevData, options: updatedOptions }));
+        setFormData((prevData) => ({ ...prevData, answers: updatedOptions }));
+
+        onSaveData(formData);
     };
 
     // Функція для додавання нової відповіді
     const addOption = () => {
-        const newOptions = [...formData.options, { text: '', isCorrect: false, isStrictText: false, a_image: null }];
-        setFormData((prevData) => ({ ...prevData, options: newOptions }));
+        const newOptions = [...formData.answers, { text: '', isCorrect: false, isStrictText: false, a_image: null }];
+        setFormData((prevData) => ({ ...prevData, answers: newOptions }));
+
+        onSaveData(formData);
     };
 
     // Функція для видалення відповіді за індексом
     const removeOption = (index: number) => {
-        const newOptions = [...formData.options];
+        const newOptions = [...formData.answers];
         newOptions.splice(index, 1);
-        setFormData((prevData) => ({ ...prevData, options: newOptions }));
+        setFormData((prevData) => ({ ...prevData, answers: newOptions }));
+
+        onSaveData(formData);
     };
 
-    // Функція для створення JSON-об'єкта зі зібраними даними
-    const createJSON = () => {
-        console.log(formData); // Виведе JSON-об'єкт у консоль
+    //Генерація випадкового id для завантаження фотографії
+    const generateUniqueId = () => {
+        return `id-${Math.random().toString(36).substr(2, 9)}`;
     };
 
     return (
@@ -87,7 +98,7 @@ export function QuestionFormSingleMultiple({ type }: QuestionFormCommonProps) {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm onFileUpload={(image) => {
+                            <ImageUploadForm id={generateUniqueId()} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                             }} />
                         </Stack>
@@ -100,7 +111,7 @@ export function QuestionFormSingleMultiple({ type }: QuestionFormCommonProps) {
                             maxRows={4}
                             placeholder="Введіть запитання, наприклад, 'Яка цивілізація існувала на території України в добу бронзи?'"
                             helperText="Запитання"
-                            value={formData.question}
+                            value={formData.title}
                             onChange={(e) => handleQuestionChange(e.target.value)}
                             sx={{ width: "80%", marginInline: "24px" }}
                         />
@@ -118,7 +129,7 @@ export function QuestionFormSingleMultiple({ type }: QuestionFormCommonProps) {
                             sx={{ width: "80%", marginInline: "24px" }}
                         />
 
-                        {formData.options.map((option, index) => (
+                        {formData.answers.map((option, index) => (
                             <Container key={index}>
                                 <TextField
                                     variant="standard"
@@ -152,10 +163,10 @@ export function QuestionFormSingleMultiple({ type }: QuestionFormCommonProps) {
                                     }}
                                 />
                                 <Stack sx={{ display: 'inline-flex' }}>
-                                    <ImageUploadForm onFileUpload={(a_image) => {
-                                        const updatedOptions = [...formData.options];
+                                    <ImageUploadForm id={generateUniqueId()} onFileUpload={(a_image) => {
+                                        const updatedOptions = [...formData.answers];
                                         updatedOptions[index] = { ...updatedOptions[index], a_image };
-                                        setFormData((prevData) => ({ ...prevData, options: updatedOptions }));
+                                        setFormData((prevData) => ({ ...prevData, answers: updatedOptions }));
                                     }} />
                                 </Stack>
                                 <IconButton onClick={() => removeOption(index)}>
@@ -176,7 +187,6 @@ export function QuestionFormSingleMultiple({ type }: QuestionFormCommonProps) {
                         <img src={AddIcon} alt="AddIcon" />
                     </IconButton>
                 </CardContent>
-                <Button onClick={createJSON}>Зберегти</Button>
             </Card>
         </Container>
     );

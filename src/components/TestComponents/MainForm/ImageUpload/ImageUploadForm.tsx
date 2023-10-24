@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container } from "@mui/material";
-import ImageUploadModal from "./ImageUploadModal";
+import { ImageUploadModal } from "./ImageUploadModal";
 import { CloudUploadIcon } from "evergreen-ui";
+import {FileDTO} from "../../../../common/types";
 
 interface ImageUploadFormProps {
-    onFileUpload?: (file: File | null) => void; // `onFileUpload` опціональний
+    onFileUpload?: (file: FileDTO | null) => void;
+    id: string;
 }
 
-export function ImageUploadForm({ onFileUpload }: ImageUploadFormProps) {
+export function ImageUploadForm({ onFileUpload, id }: ImageUploadFormProps) {
     const [open, setOpen] = useState(false);
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const [uploadedFile, setUploadedFile] = useState<FileDTO | null>(null);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleFileUpload = (file: File | null) => {
-        setUploadedFile(file);
+    const handleFileUpload = async (file: FileDTO | null) => {
+        try {
+            if (onFileUpload && file) {
+                setUploadedFile(file);
+                onFileUpload(file);
+            } else {
+                console.error('Помилка: onFileUpload не існує або uploadedFile має неправильні дані');
+            }
+        } catch (error) {
+            console.error('Помилка завантаження файлу', error);
+        }
     };
 
     useEffect(() => {
@@ -26,6 +37,7 @@ export function ImageUploadForm({ onFileUpload }: ImageUploadFormProps) {
 
     return (
         <Container>
+            {id && (
             <Button
                 component="label"
                 variant="contained"
@@ -36,6 +48,7 @@ export function ImageUploadForm({ onFileUpload }: ImageUploadFormProps) {
             >
                 Завантажити фото
             </Button>
+            )}
             <ImageUploadModal open={open} onClose={handleClose} onFileUpload={handleFileUpload} />
         </Container>
     );

@@ -7,23 +7,25 @@ import {
     Typography,
     InputAdornment,
 } from '@mui/material';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import PublicIcon from '../common/icons/icon-public-test.png';
 import PrivateIcon from '../common/icons/icon-private-test.png';
 import CustomSwitch from '../common/components/CustomSwitch';
 import { CategoryForm } from '../components/TestComponents/MainForm/CategoryModal/CategoryForm';
 import StickyBox from 'react-sticky-box';
 import StickyContainer from 'react-sticky-box';
-import { TestDTO } from '../common/types';
+import {QuestionDto, TestDTO} from '../common/types';
 import { apiGetTestById, apiUpdateTest } from '../common/services/test-service';
 import {QuestionSelect} from "../components/TestComponents/MainForm/QuestionSelect";
+import {apiCreateQuestion} from "../common/services/question-service";
 
 export function TestPage() {
     const { testId } = useParams();
-    const { register, formState: { isValid }, handleSubmit } = useForm<FieldValues>();
+    const { register, handleSubmit } = useForm<FieldValues>();
     const [state, setState] = useState({
         public: true,
     });
+    const [questions, setQuestions] = useState<QuestionDto[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const navigate = useNavigate();
     const [testData, setTestData] = useState<TestDTO>({
@@ -47,8 +49,8 @@ export function TestPage() {
         }
     }, [testId]);
 
-    const onSubmit: SubmitHandler<FieldValues> = () => {
-        if (testId == null) return;
+    const onSubmit = async () => {
+        if (testId == null || !testData.title) return;
 
         const updatedTestData: TestDTO = {
             title: testData.title,
@@ -59,11 +61,17 @@ export function TestPage() {
             status: 'Created',
         };
 
-        apiUpdateTest(parseInt(testId), updatedTestData)
-            .then((response: any) => {
-                console.log(response);
-                navigate('/test');
-            });
+        try {
+            // Спочатку створюємо питання, а потім відправляємо дані про тест
+            await apiCreateQuestion(parseInt(testId), questions);
+
+            // Після успішного створення питань відправляємо дані про тест
+            await apiUpdateTest(parseInt(testId), updatedTestData);
+
+            navigate('/test');
+        } catch (error) {
+            console.error('Помилка при створенні або оновленні тесту', error);
+        }
     };
 
     const onSaveCategories = (categories: string[]) => {
@@ -95,7 +103,12 @@ export function TestPage() {
                     spacing={2}
                 >
                     <Typography variant="h4">Створити новий тест</Typography>
-                    <Button variant="contained" color="success" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        disabled={!testData.title || questions.every((question) => !question.title)}
+                        onClick={handleSubmit(onSubmit)}
+                    >
                         Створити тест
                     </Button>
                 </Stack>
@@ -110,99 +123,97 @@ export function TestPage() {
                     position: 'relative'
                 }}
             >
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Stack flexDirection="column" spacing={2}>
-                        <Stack sx={{ display: 'inline-flex', flexDirection: 'row' }}>
-                            <TextField
-                                variant="standard"
-                                placeholder="Введіть назву, наприклад, 'Історія України. Первісні часи'"
-                                sx={{ width: '40%', marginBottom: '1rem' }}
-                                helperText="Назва"
-                                {...register('title', { required: true })}
-                                value={testData.title}
-                                onChange={(event) => {
-                                    setTestData((prevTestData) => ({
-                                        ...prevTestData,
-                                        title: event.target.value,
-                                    }));
-                                }}
-                            />
-                            <Stack style={{ marginLeft: 'auto' }}>
-                                <TextField
-                                    label="Час на виконання"
-                                    variant="outlined"
-                                    autoFocus
-                                    type="number"
-                                    value={testData.duration}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">хв</InputAdornment>,
-                                    }}
-                                    {...register('duration', {
-                                        required: true,
-                                        validate: (value) => parseInt(value) <= 360,
-                                    })}
-                                        onChange={(event) => {
-                                        setTestData((prevTestData) => ({
-                                        ...prevTestData,
-                                        duration: parseInt(event.target.value),
-                                        }));
-                                    }}
-                                />
-                            </Stack>
-                        </Stack>
+                <Stack flexDirection="column" spacing={2}>
+                    <Stack sx={{ display: 'inline-flex', flexDirection: 'row' }}>
                         <TextField
                             variant="standard"
-                            placeholder="Додайте опис    (опціонально)
-                            "
-                            multiline
-                            maxRows={4}
+                            placeholder="Введіть назву, наприклад, 'Історія України. Первісні часи'"
                             sx={{ width: '40%', marginBottom: '1rem' }}
-                            helperText="Опис"
-                            {...register('description')}
-                            value={testData.description}
+                            helperText="Назва"
+                            value={testData.title}
+                            {...register('title')}
                             onChange={(event) => {
                                 setTestData((prevTestData) => ({
                                     ...prevTestData,
-                                    description: event.target.value,
+                                    title: event.target.value,
                                 }));
                             }}
                         />
+                        <Stack style={{ marginLeft: 'auto' }}>
+                            <TextField
+                                label="Час на виконання"
+                                variant="outlined"
+                                autoFocus
+                                type="number"
+                                value={testData.duration}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">хв</InputAdornment>,
+                                }}
+                                {...register('duration', {
+                                    required: true,
+                                    validate: (value) => parseInt(value) <= 360,
+                                })}
+                                onChange={(event) => {
+                                    setTestData((prevTestData) => ({
+                                        ...prevTestData,
+                                        duration: parseInt(event.target.value),
+                                    }));
+                                }}
+                            />
+                        </Stack>
                     </Stack>
-                    <Stack
-                        sx={{
-                            direction: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            width: '100%',
-                            marginTop: '16px',
-                            marginBottom: '16px',
+                    <TextField
+                        variant="standard"
+                        placeholder="Додайте опис    (опціонально)
+                            "
+                        multiline
+                        maxRows={4}
+                        sx={{ width: '40%', marginBottom: '1rem' }}
+                        helperText="Опис"
+                        {...register('description')}
+                        value={testData.description}
+                        onChange={(event) => {
+                            setTestData((prevTestData) => ({
+                                ...prevTestData,
+                                description: event.target.value,
+                            }));
                         }}
-                        direction="row"
-                    >
-                        <CategoryForm onSaveCategories={onSaveCategories} />
-                        <CustomSwitch
-                            options={[
-                                {
-                                    label: 'Публічний',
-                                    value: testData.isPublic,
-                                    imageIcon: <img src={PublicIcon} alt="Public" width="32" height="32" />,
-                                },
-                                {
-                                    label: 'Приватний',
-                                    value: !testData.isPublic,
-                                    imageIcon: <img src={PrivateIcon} alt="Private" width="32" height="32" />,
-                                },
-                            ]}
-                            onChange={(value) => {
-                                setState({ ...state, public: value });
-                            }}
-                            size="small"
-                        />
-                    </Stack>
-                </form>
+                    />
+                </Stack>
+                <Stack
+                    sx={{
+                        direction: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        marginTop: '16px',
+                        marginBottom: '16px',
+                    }}
+                    direction="row"
+                >
+                    <CategoryForm onSaveCategories={onSaveCategories} />
+                    <CustomSwitch
+                        options={[
+                            {
+                                label: 'Публічний',
+                                value: testData.isPublic,
+                                imageIcon: <img src={PublicIcon} alt="Public" width="32" height="32" />,
+                            },
+                            {
+                                label: 'Приватний',
+                                value: !testData.isPublic,
+                                imageIcon: <img src={PrivateIcon} alt="Private" width="32" height="32" />,
+                            },
+                        ]}
+                        onChange={(value) => {
+                            setState({ ...state, public: value });
+                        }}
+                        size="small"
+                    />
+                </Stack>
             </Stack>
             <Stack>
-                <QuestionSelect />
+                <QuestionSelect setQuestions={setQuestions}/>
             </Stack>
         </StickyContainer>
     );

@@ -22,14 +22,14 @@ export interface TestDTO {
 
 export interface QuestionDto {
   type: string;
-  question: string;
+  title: string;
   description: string;
-  q_image: File | null;
-  options: Array<{
+  q_image: FileDTO | null;
+  answers: Array<{
     text: string;
     isCorrect: boolean;
     isStrictText: boolean;
-    a_image: File | null;
+    a_image: FileDTO | null;
   }>;
 }
 
@@ -43,6 +43,13 @@ export interface UserDTO {
   password: string;
   name: string;
   // tgUserId?: number;
+}
+
+export interface FileDTO
+{
+  fileName: string;
+  contentType: string;
+  data: number[];
 }
 
 export interface User extends UserDTO {

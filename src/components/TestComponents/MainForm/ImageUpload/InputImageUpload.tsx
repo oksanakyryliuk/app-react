@@ -1,9 +1,10 @@
-import {FileCard, Pane, FileUploader, Alert} from 'evergreen-ui';
+import { FileCard, Pane, FileUploader, Alert } from 'evergreen-ui';
 import React, { useState } from 'react';
-import {Container} from "@mui/material";
+import { Container } from "@mui/material";
+import {FileDTO} from "../../../../common/types";
 
 interface ImageUploadProps {
-    onFileUpload: (file: File | null) => void;
+    onFileUpload: (file: FileDTO | null) => void; // Змінено тип параметра на FileDto
 }
 
 function ImageUpload({ onFileUpload }: ImageUploadProps) {
@@ -12,7 +13,7 @@ function ImageUpload({ onFileUpload }: ImageUploadProps) {
 
     const [showAlert, setShowAlert] = useState(false);
 
-    const handleChange = React.useCallback((uploadedFiles: File[]) => {
+    const handleChange = React.useCallback(async (uploadedFiles: File[]) => {
         const allowedExtensions = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
 
         if (uploadedFiles.length > 0) {
@@ -20,9 +21,17 @@ function ImageUpload({ onFileUpload }: ImageUploadProps) {
             if (allowedExtensions.includes(file.type)) {
                 setFiles([file]);
                 setShowAlert(false);
-                onFileUpload(file); // Виклик функції, щоб передати завантажений файл батьківському компоненту
+
+                // Створення об'єкта FileDto
+                const fileDto = {
+                    fileName: file.name,
+                    contentType: file.type,
+                    data: Array.from(new Uint8Array(await file.arrayBuffer()))
+                };
+
+                onFileUpload(fileDto);
             } else {
-                setFileRejections([{ file, message: 'Дозволено завантажувати лише зображення' }]);
+                setFileRejections([{file, message: 'Дозволено завантажувати лише зображення'}]);
                 setShowAlert(true);
             }
         }
@@ -32,20 +41,20 @@ function ImageUpload({ onFileUpload }: ImageUploadProps) {
         setFiles([]);
         setFileRejections([]);
         setShowAlert(false);
-        onFileUpload(null); // Передача null, коли файл видаляється
+        onFileUpload(null);
     }, [onFileUpload]);
 
     return (
         <Pane maxWidth={654}>
             {showAlert && (
-               <Container sx={{ paddingBottom: '28px' }}>
-                   <Alert
-                       intent="danger"
-                       title="Неможливо зберегти зміни"
-                   >
-                       Дозволено завантажувати лише зображення форматів: '/jpeg', '/jpg', '/png', '/gif'.
-                   </Alert>
-               </Container>
+                <Container sx={{ paddingBottom: '28px' }}>
+                    <Alert
+                        intent="danger"
+                        title="Неможливо зберегти зміни"
+                    >
+                        Дозволено завантажувати лише зображення форматів: '/jpeg', '/jpg', '/png', '/gif'.
+                    </Alert>
+                </Container>
             )}
             <FileUploader
                 label="Завантаження зображення"

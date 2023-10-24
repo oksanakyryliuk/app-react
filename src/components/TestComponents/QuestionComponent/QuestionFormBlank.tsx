@@ -9,35 +9,46 @@ import {
 } from '@mui/material';
 import { ImageUploadForm } from '../MainForm/ImageUpload/ImageUploadForm';
 import NextIcon from '../../../common/icons/right-arrow.png';
-import { Alert } from 'evergreen-ui';
 import { BlankForm } from './BlankForm';
-import {QuestionDto} from "../../../common/types";
+import { QuestionDto } from "../../../common/types";
 
-export function QuestionFormBlank() {
+interface QuestionFormProps {
+    onSaveData: (formData: QuestionDto) => void;
+}
+
+export function QuestionFormBlank({ onSaveData }: QuestionFormProps) {
     const [formData, setFormData] = useState<QuestionDto>({
         type: 'blank',
-        question: '',
+        title: '',
         description: '',
         q_image: null,
-        options: [],
+        answers: [],
     });
 
     const [showBlanks, setShowBlanks] = useState(false);
 
     // Функція для зміни даних питання
     const handleQuestionChange = (value: string) => {
-        setFormData((prevData) => ({ ...prevData, question: value }));
+        setFormData((prevData) => ({ ...prevData, title: value }));
+
+        createJSON();
     };
 
     // Функція для зміни опису
     const handleDescriptionChange = (value: string) => {
         setFormData((prevData) => ({ ...prevData, description: value }));
+
+        createJSON();
     };
 
     // Функція для створення JSON-об'єкта зі зібраними даними
     const createJSON = () => {
-        //formData.question = formData.question.replace(/\[([^\]]+)\]/g, "___________");
-        console.log(formData); // Виведе JSON-об'єкт у консоль
+        onSaveData(formData);
+    };
+
+    // Генерація випадкового id для завантаження фотографії
+    const generateUniqueId = () => {
+        return `id-${Math.random().toString(36)}`;
     };
 
     return (
@@ -61,21 +72,14 @@ export function QuestionFormBlank() {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm onFileUpload={(image) => {
+                            <ImageUploadForm id={generateUniqueId()} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
+                                createJSON();
                             }} />
                         </Stack>
                     </Stack>
                     {!showBlanks ? (
                         <Container>
-                            <Container>
-                                <Alert
-                                    intent="none"
-                                    title="Напишіть відповідь у квадратних дужках, щоб створити пропуск."
-                                    marginBottom={32}
-                                    marginX="64px"
-                                />
-                            </Container>
                             <Container sx={{ margin: '32px' }}>
                                 <TextField
                                     variant="standard"
@@ -83,7 +87,7 @@ export function QuestionFormBlank() {
                                     maxRows={4}
                                     placeholder="Введіть запитання, наприклад, 'В добу [палеоліту] з'явились перші поселення на території України.'"
                                     helperText="Запитання"
-                                    value={formData.question}
+                                    value={formData.title}
                                     onChange={(e) => handleQuestionChange(e.target.value)}
                                     sx={{ width: '80%', marginInline: '24px' }}
                                 />
@@ -117,20 +121,19 @@ export function QuestionFormBlank() {
                         </Container>
                     ) : (
                         <BlankForm
-                            question={formData.question}
+                            question={formData.title}
                             setShowBlanks={() => setShowBlanks(false)}
-                            options={formData.options}
+                            options={formData.answers}
                             onOptionsChange={(newOptions) => {
                                 setFormData((prevData) => ({
                                     ...prevData,
-                                    options: newOptions,
+                                    answers: newOptions,
                                 }));
+                                createJSON(); // Оновіть JSON при зміні options
                             }}
                         />
-
                     )}
                 </CardContent>
-                <Button onClick={createJSON}>Зберегти</Button>
             </Card>
         </Container>
     );

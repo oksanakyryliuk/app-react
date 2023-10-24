@@ -7,7 +7,9 @@ import RadioIcon from '../../../common/icons/radio-button.png';
 import CheckboxIcon from '../../../common/icons/checkbox.png';
 import BinaryChoiceIcon from '../../../common/icons/true-false.png';
 import FillBankIcon from '../../../common/icons/writing.png';
-import {Divider, ListItemIcon, ListItemText} from "@mui/material";
+import AddOptionIcon from '../../../common/icons/plus.png';
+import {Button, Divider, ListItemIcon, ListItemText} from "@mui/material";
+import StickyBox from "react-sticky-box";
 
 interface DropUpQuestionMenuProps {
     onOptionSelect: (option: string) => void;
@@ -31,6 +33,29 @@ export function DropUpQuestionMenu({ onOptionSelect }: DropUpQuestionMenuProps) 
 
     return (
         <>
+            <StickyBox
+                style={{
+                    paddingBlock: '14px',
+                    paddingInline: '68px',
+                    margin: '10px',
+                    borderRadius: '10px',
+                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <Button
+                    color="success"
+                    sx={{
+                        width: '70%',
+                    }}
+                    startIcon={< img src={AddOptionIcon} alt={'add'} style={{width:'24px'}}/>}
+                    onClick={handleOpenMenu}
+                >
+                    Додати запитання
+                </Button>
+            </StickyBox>
             <IconButton
                 aria-controls="simple-menu"
                 aria-haspopup="true"
@@ -38,11 +63,13 @@ export function DropUpQuestionMenu({ onOptionSelect }: DropUpQuestionMenuProps) 
                 sx={{
                     position: 'fixed',
                     bottom: '20px',
-                    right: '40px',
+                    right: '30px',
                     zIndex: 1000,
+                    textAlign: 'right'
                 }}
+                size='small'
             >
-                <img src={AddQuestion} alt='add' />
+                <img src={AddQuestion} alt='add'/>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
