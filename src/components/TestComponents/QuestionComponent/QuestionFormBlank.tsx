@@ -68,7 +68,7 @@ export function QuestionFormBlank({ onSaveData, questionIndex }: QuestionFormPro
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm id={`blank-id-${questionIndex}`} onFileUpload={(image) => {
+                            <ImageUploadForm id={`blank-id-${questionIndex}-${Math.random()}`} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                                 createJSON();
                             }} />

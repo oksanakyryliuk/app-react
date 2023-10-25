@@ -61,6 +61,7 @@ export function TestPage() {
             status: 'Created',
         };
 
+        console.log(questions);
         try {
             // Спочатку створюємо питання, а потім відправляємо дані про тест
             await apiCreateQuestion(parseInt(testId), questions);

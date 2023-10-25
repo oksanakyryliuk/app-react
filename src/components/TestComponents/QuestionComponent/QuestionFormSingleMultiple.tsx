@@ -58,10 +58,13 @@ export function QuestionFormSingleMultiple({ type, onSaveData, questionIndex }: 
 
     // Функція для додавання нової відповіді
     const addOption = () => {
-        const newOptions = [...formData.answers, { text: '', isCorrect: false, isStrictText: false, a_image: null }];
-        setFormData((prevData) => ({ ...prevData, answers: newOptions }));
-
-        onSaveData(formData);
+        setFormData((prevData) => ({
+            ...prevData,
+            answers: [
+                ...prevData.answers,
+                { text: '', isCorrect: false, isStrictText: false, a_image: null }
+            ]
+        }));
     };
 
     // Функція для видалення відповіді за індексом
@@ -94,7 +97,7 @@ export function QuestionFormSingleMultiple({ type, onSaveData, questionIndex }: 
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm id= {`imageUpload-${type}-${questionIndex}`} onFileUpload={(image) => {
+                            <ImageUploadForm id= {`imageUpload-${type}-${questionIndex}-${Math.random()}`} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                             }} />
                         </Stack>
@@ -159,7 +162,7 @@ export function QuestionFormSingleMultiple({ type, onSaveData, questionIndex }: 
                                     }}
                                 />
                                 <Stack sx={{ display: 'inline-flex' }}>
-                                    <ImageUploadForm id={`imageUploadAnswer-${index}-forQuestion-${questionIndex}`} onFileUpload={(a_image) => {
+                                    <ImageUploadForm id={`imageUploadAnswer-${index}-forQuestion-${questionIndex}-${Math.random()}`} onFileUpload={(a_image) => {
                                         const updatedOptions = [...formData.answers];
                                         updatedOptions[index] = { ...updatedOptions[index], a_image };
                                         setFormData((prevData) => ({ ...prevData, answers: updatedOptions }));

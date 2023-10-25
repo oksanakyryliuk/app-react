@@ -85,8 +85,9 @@ export function QuestionFormBinary({ onSaveData, questionIndex }: QuestionFormPr
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm id={`binary-id-${questionIndex}`}  onFileUpload={(image) => {
+                            <ImageUploadForm id={`binary-id-${questionIndex}-${Math.random()}`} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
+                                onSaveData(formData);
                             }} />
                         </Stack>
                     </Stack>
