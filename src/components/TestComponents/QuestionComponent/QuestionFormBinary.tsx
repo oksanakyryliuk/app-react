@@ -14,9 +14,10 @@ import {Radio} from "evergreen-ui";
 
 interface QuestionFormProps {
     onSaveData: (formData: QuestionDto) => void;
+    questionIndex: number;
 }
 
-export function QuestionFormBinary({ onSaveData }: QuestionFormProps) {
+export function QuestionFormBinary({ onSaveData, questionIndex }: QuestionFormProps) {
     const [formData, setFormData] = useState<QuestionDto>({
         type: "binary",
         title: '',
@@ -63,11 +64,6 @@ export function QuestionFormBinary({ onSaveData }: QuestionFormProps) {
         onSaveData(formData);
     };
 
-    //Генерація випадкового id для завантаження фотографії
-    const generateUniqueId = () => {
-        return `id-${Math.random().toString(36).substr(2, 9)}`;
-    };
-
     return (
         <Container sx={{marginBlock:"16px"}}>
             <Card>
@@ -89,7 +85,7 @@ export function QuestionFormBinary({ onSaveData }: QuestionFormProps) {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm id={generateUniqueId()} onFileUpload={(image) => {
+                            <ImageUploadForm id={`binary-id-${questionIndex}`}  onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                             }} />
                         </Stack>
@@ -135,7 +131,7 @@ export function QuestionFormBinary({ onSaveData }: QuestionFormProps) {
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 <Radio
-                                                    name="answerCorrect"
+                                                    name={`correct-${questionIndex}`}
                                                     checked={option.isCorrect}
                                                     onChange={() => handleRadioChange(index)}
                                                 />

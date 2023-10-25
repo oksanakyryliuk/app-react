@@ -21,9 +21,10 @@ type QuestionType = 'single' | 'multiple';
 interface QuestionFormCommonProps {
     type: QuestionType;
     onSaveData: (formData: QuestionDto) => void;
+    questionIndex: number;
 }
 
-export function QuestionFormSingleMultiple({ type, onSaveData }: QuestionFormCommonProps) {
+export function QuestionFormSingleMultiple({ type, onSaveData, questionIndex }: QuestionFormCommonProps) {
     const [formData, setFormData] = useState<QuestionDto>({
         type: type,
         title: '',
@@ -72,11 +73,6 @@ export function QuestionFormSingleMultiple({ type, onSaveData }: QuestionFormCom
         onSaveData(formData);
     };
 
-    //Генерація випадкового id для завантаження фотографії
-    const generateUniqueId = () => {
-        return `id-${Math.random().toString(36).substr(2, 9)}`;
-    };
-
     return (
         <Container sx={{ marginBlock: "16px" }}>
             <Card>
@@ -98,7 +94,7 @@ export function QuestionFormSingleMultiple({ type, onSaveData }: QuestionFormCom
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm id={generateUniqueId()} onFileUpload={(image) => {
+                            <ImageUploadForm id= {`imageUpload-${type}-${questionIndex}`} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                             }} />
                         </Stack>
@@ -146,7 +142,7 @@ export function QuestionFormSingleMultiple({ type, onSaveData }: QuestionFormCom
                                             <InputAdornment position="end">
                                                 {type === 'single' ? (
                                                     <Radio
-                                                        name="correct"
+                                                        name={`correct-${questionIndex}`}
                                                         checked={option.isCorrect}
                                                         onChange={(e) => handleOptionChange(index, option.text, e.target.checked, false, option.a_image)}
                                                     />
@@ -163,7 +159,7 @@ export function QuestionFormSingleMultiple({ type, onSaveData }: QuestionFormCom
                                     }}
                                 />
                                 <Stack sx={{ display: 'inline-flex' }}>
-                                    <ImageUploadForm id={generateUniqueId()} onFileUpload={(a_image) => {
+                                    <ImageUploadForm id={`imageUploadAnswer-${index}-forQuestion-${questionIndex}`} onFileUpload={(a_image) => {
                                         const updatedOptions = [...formData.answers];
                                         updatedOptions[index] = { ...updatedOptions[index], a_image };
                                         setFormData((prevData) => ({ ...prevData, answers: updatedOptions }));

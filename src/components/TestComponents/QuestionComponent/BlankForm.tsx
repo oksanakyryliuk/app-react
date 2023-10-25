@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {Dispatch, SetStateAction, useEffect} from "react";
 import {
     Button,
     Container,
@@ -9,25 +9,16 @@ import {
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import PrevIcon from "../../../common/icons/left-arrow.png";
-import {FileDTO} from "../../../common/types";
+import { QuestionDto } from "../../../common/types";
 
 interface BlankFormProps {
-    question: string;
     setShowBlanks: Dispatch<SetStateAction<boolean>>;
-    options: Blank[];
-    onOptionsChange: (options: Blank[]) => void;
+    formData: QuestionDto;
+    onFormDataChange: (newFormData: QuestionDto) => void;
 }
 
-interface Blank {
-    text: string,
-    isStrictText: boolean,
-    isCorrect: boolean,
-    a_image: FileDTO | null,
-}
-
-export function BlankForm({ question, setShowBlanks, options, onOptionsChange }: BlankFormProps) {
-    const [blanks, setBlanks] = useState<Blank[]>(options);
-    const replaceBlank = question.replace(/\[([^\]]+)\]/g, "___________");
+export function BlankForm({ formData, setShowBlanks, onFormDataChange }: BlankFormProps) {
+    const replaceBlank = formData.title.replace(/\[([^\]]+)\]/g, "___________");
 
     useEffect(() => {
         const parseTextForBlanks = (text: string) => {
@@ -39,19 +30,19 @@ export function BlankForm({ question, setShowBlanks, options, onOptionsChange }:
                 matches.push(match[1]);
             }
 
-            const newBlanks = matches.map((text) => ({
+            formData.answers = matches.map((text) => ({
                 text,
                 isStrictText: false,
-                isCorrect: false, // Початкове значення isCorrect
-                a_image: null,    // Початкове значення a_image
+                isCorrect: false,
+                a_image: null,
             }));
 
-            setBlanks(newBlanks);
-            onOptionsChange(newBlanks); // Оновлення options у головному компоненті
+            onFormDataChange(formData);
         };
 
-        parseTextForBlanks(question);
-    }, [question]);
+        parseTextForBlanks(formData.title);
+
+    }, [formData.title]);
 
     return (
         <Container>
@@ -67,7 +58,7 @@ export function BlankForm({ question, setShowBlanks, options, onOptionsChange }:
             </Container>
             <Container sx={{ margin: "32px" }}>
                 <InputLabel sx={{ marginBlock: "1rem" }}>Пропуски:</InputLabel>
-                {blanks.map((option, index) => (
+                {formData.answers.map((option, index) => (
                     <Stack key={index}>
                         <TextField
                             variant="standard"
@@ -85,14 +76,19 @@ export function BlankForm({ question, setShowBlanks, options, onOptionsChange }:
                                             size="small"
                                             checked={option.isStrictText}
                                             onChange={() => {
-                                                const updatedBlanks = [...blanks];
-                                                updatedBlanks[index].isStrictText = !option.isStrictText;
-                                                setBlanks(updatedBlanks);
+                                                const updatedFormData = { ...formData };
+                                                updatedFormData.answers[index].isStrictText = !option.isStrictText;
+                                                onFormDataChange(updatedFormData);
                                             }}
                                         />
                                         <InputLabel>Враховувати регістр</InputLabel>
                                     </InputAdornment>
                                 ),
+                            }}
+                            onChange={(e) => {
+                                const updatedFormData = { ...formData };
+                                updatedFormData.answers[index].text = e.target.value;
+                                onFormDataChange(updatedFormData);
                             }}
                         />
                     </Stack>

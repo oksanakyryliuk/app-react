@@ -30,10 +30,14 @@ interface QuestionSelectProps {
 }
 
 export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelectProps) {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<{ type: string; data: QuestionDto; }[]>([]);
 
     const handleSelectedOption = (option: string) => {
-        setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, option]);
+        const newIndex = selectedOptions.length;
+
+        setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, { type: option, data: { type: '', title: '', description: '', q_image: null, answers: [] } }]);
+
+        handleAddQuestion(newIndex, { type: option, title: '', description: '', q_image: null, answers: [] });
     };
 
     const handleRemoveOption = (index: number) => {
@@ -50,6 +54,12 @@ export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelect
             updatedQuestions[index] = formData;
             return updatedQuestions;
         });
+
+        setSelectedOptions((prevSelectedOptions) => {
+            const updatedOptions = [...prevSelectedOptions];
+            updatedOptions[index].data = formData;
+            return updatedOptions;
+        });
     };
 
     const handleRemoveQuestion = (index: number) => {
@@ -58,6 +68,12 @@ export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelect
             updatedQuestions.splice(index, 1);
             return updatedQuestions;
         });
+
+        setSelectedOptions((prevSelectedOptions) => {
+            const updatedOptions = [...prevSelectedOptions];
+            updatedOptions.splice(index, 1);
+            return updatedOptions;
+        });
     };
 
     return (
@@ -65,9 +81,9 @@ export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelect
             <Stack>
                 {selectedOptions.map((option, index) => (
                     <Stack key={index}>
-                        {option === 'single' && (
+                        {option.type === 'single' && (
                             <Stack>
-                                <QuestionFormSingleMultiple key={index} type="single" onSaveData={(formData) => handleAddQuestion(index, formData)} />
+                                <QuestionFormSingleMultiple key={index} type="single" questionIndex={index} onSaveData={(formData) => handleAddQuestion(index, formData)} />
                                 <Stack sx={{ marginBlock: '4px', alignItems: 'center' }}>
                                     <DeleteButton onClick={() => {
                                         handleRemoveOption(index);
@@ -76,9 +92,9 @@ export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelect
                                 </Stack>
                             </Stack>
                         )}
-                        {option === 'multiple' && (
+                        {option.type === 'multiple' && (
                             <Stack>
-                                <QuestionFormSingleMultiple key={index} type="multiple" onSaveData={(formData) => handleAddQuestion(index, formData)}/>
+                                <QuestionFormSingleMultiple key={index} questionIndex={index} type="multiple" onSaveData={(formData) => handleAddQuestion(index, formData)}/>
                                 <Stack sx={{ marginBlock: '4px', alignItems: 'center' }}>
                                     <DeleteButton onClick={() => {
                                         handleRemoveOption(index);
@@ -87,9 +103,9 @@ export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelect
                                 </Stack>
                             </Stack>
                         )}
-                        {option === 'binary' && (
+                        {option.type === 'binary' && (
                             <Stack>
-                                <QuestionFormBinary key={index} onSaveData={(formData) => handleAddQuestion(index, formData)} />
+                                <QuestionFormBinary key={index} questionIndex={index} onSaveData={(formData) => handleAddQuestion(index, formData)} />
                                 <Stack sx={{ marginBlock: '4px', alignItems: 'center' }}>
                                     <DeleteButton onClick={() => {
                                         handleRemoveOption(index);
@@ -98,9 +114,9 @@ export function QuestionSelect({ setQuestions: updateQuestions }: QuestionSelect
                                 </Stack>
                             </Stack>
                         )}
-                        {option === 'blank' && (
+                        {option.type === 'blank' && (
                             <Stack>
-                                <QuestionFormBlank key={index} onSaveData={(formData) => handleAddQuestion(index, formData)} />
+                                <QuestionFormBlank key={index} questionIndex={index} onSaveData={(formData) => handleAddQuestion(index, formData)} />
                                 <Stack sx={{ marginBlock: '4px', alignItems: 'center' }}>
                                     <DeleteButton onClick={() => {
                                         handleRemoveOption(index);

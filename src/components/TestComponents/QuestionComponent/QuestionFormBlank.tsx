@@ -14,9 +14,10 @@ import { QuestionDto } from "../../../common/types";
 
 interface QuestionFormProps {
     onSaveData: (formData: QuestionDto) => void;
+    questionIndex: number;
 }
 
-export function QuestionFormBlank({ onSaveData }: QuestionFormProps) {
+export function QuestionFormBlank({ onSaveData, questionIndex }: QuestionFormProps) {
     const [formData, setFormData] = useState<QuestionDto>({
         type: 'blank',
         title: '',
@@ -46,11 +47,6 @@ export function QuestionFormBlank({ onSaveData }: QuestionFormProps) {
         onSaveData(formData);
     };
 
-    // Генерація випадкового id для завантаження фотографії
-    const generateUniqueId = () => {
-        return `id-${Math.random().toString(36)}`;
-    };
-
     return (
         <Container sx={{ marginBlock: '16px' }}>
             <Card>
@@ -72,7 +68,7 @@ export function QuestionFormBlank({ onSaveData }: QuestionFormProps) {
                             disabled
                         />
                         <Stack>
-                            <ImageUploadForm id={generateUniqueId()} onFileUpload={(image) => {
+                            <ImageUploadForm id={`blank-id-${questionIndex}`} onFileUpload={(image) => {
                                 setFormData((prevData) => ({ ...prevData, q_image: image }));
                                 createJSON();
                             }} />
@@ -121,15 +117,11 @@ export function QuestionFormBlank({ onSaveData }: QuestionFormProps) {
                         </Container>
                     ) : (
                         <BlankForm
-                            question={formData.title}
                             setShowBlanks={() => setShowBlanks(false)}
-                            options={formData.answers}
-                            onOptionsChange={(newOptions) => {
-                                setFormData((prevData) => ({
-                                    ...prevData,
-                                    answers: newOptions,
-                                }));
-                                createJSON(); // Оновіть JSON при зміні options
+                            formData={formData}
+                            onFormDataChange={(newFormData) => {
+                                setFormData(newFormData);
+                                createJSON();
                             }}
                         />
                     )}

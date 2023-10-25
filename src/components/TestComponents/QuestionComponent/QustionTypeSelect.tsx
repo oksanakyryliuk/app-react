@@ -21,7 +21,7 @@ interface QuestionSelectProps {
     value: string;
 }
 
-function QuestionTypeSelect({ questionTypeList, onChange }: QuestionSelectProps) {
+const QuestionTypeSelect = ({ questionTypeList, onChange }: QuestionSelectProps) => {
     const { register } = useForm();
     const [selectedType, setSelectedType] = useState<string | null>('');
     const [showPopup, setShowPopup] = useState(false);
