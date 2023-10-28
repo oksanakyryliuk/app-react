@@ -8,8 +8,8 @@ import {
     TextField,
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import PrevIcon from "../../../common/icons/left-arrow.png";
-import { QuestionDto } from "../../../common/types";
+import PrevIcon from "../../../../common/icons/left-arrow.png";
+import { QuestionDto } from "../../../../common/types";
 
 interface BlankFormProps {
     setShowBlanks: Dispatch<SetStateAction<boolean>>;

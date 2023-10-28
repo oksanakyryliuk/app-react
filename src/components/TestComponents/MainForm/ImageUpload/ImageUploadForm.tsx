@@ -30,7 +30,6 @@ export function ImageUploadForm({ onFileUpload, id }: ImageUploadFormProps) {
     };
 
     useEffect(() => {
-        console.log('fileid', id);
         if (onFileUpload) {
             onFileUpload(uploadedFile);
         }

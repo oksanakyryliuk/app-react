@@ -8,8 +8,8 @@ import {
     Stack,
     TextField,
 } from '@mui/material';
-import {ImageUploadForm} from "../MainForm/ImageUpload/ImageUploadForm";
-import {QuestionDto} from "../../../common/types";
+import {ImageUploadForm} from "../ImageUpload/ImageUploadForm";
+import {QuestionDto} from "../../../../common/types";
 import {Radio} from "evergreen-ui";
 
 interface QuestionFormProps {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormControl } from '@mui/material';
-import { QuestionType } from '../../../common/types';
+import { QuestionType } from '../../../../common/types';
 import { useForm } from 'react-hook-form';
 import {Combobox, toaster} from "evergreen-ui";
 

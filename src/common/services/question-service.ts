@@ -1,4 +1,4 @@
-import {QuestionDto, QuestionType, User} from "../types";
+import {Question, QuestionDto, QuestionType, User} from "../types";
 import httpClient from "../http-client";
 
 export const apiGetQuestionTypes = async (): Promise<QuestionType[]> => {
@@ -23,3 +23,8 @@ export function apiCreateQuestion(testId: number, data: QuestionDto[])  {
             return response.data;
         });
 }
+
+export const apiGetQuestionsByTest = async (testId: number): Promise<Question[]> => {
+    const {data} = await httpClient.get<Question[]>(`Question/getByTest/${testId}`)
+    return data;
+};

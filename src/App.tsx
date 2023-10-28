@@ -7,15 +7,14 @@ import {
 } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import {muiDarkTheme} from "./config/theme"
-import { PrivateRoutes } from './common/private-routes';
 import { AppModules } from './enums/AppModules';
 import { LoginPage } from './auth/login/LoginPage';
 import { HomePage } from './home/HomePage';
-import MainLayout from './common/components/MainLayout';
 import { RegisterPage } from "./auth/register/Register";
 import {CategoryPage} from "./pages/Category";
 import {TestPage} from "./pages/Test";
 import {GeneralTestsPage} from "./pages/GeneralTestsPage";
+import {TestPreview} from "./pages/TestPreview";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -28,6 +27,7 @@ const router = createBrowserRouter(
 
             <Route path={AppModules.Category} element={<CategoryPage />} />
             <Route path='/test/:testId' element={<TestPage />} />
+            <Route path='/test/:testId/preview' element={<TestPreview />} />
             <Route path={AppModules.Test} element={<GeneralTestsPage />} />
           <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />

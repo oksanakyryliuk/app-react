@@ -11,10 +11,10 @@ import {
     Stack
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from "../../../common/icons/plus.png";
-import { ImageUploadForm } from "../MainForm/ImageUpload/ImageUploadForm";
+import AddIcon from "../../../../common/icons/plus.png";
+import { ImageUploadForm } from "../ImageUpload/ImageUploadForm";
 import { Radio } from "evergreen-ui";
-import {FileDTO, QuestionDto} from '../../../common/types';
+import {FileDTO, QuestionDto} from '../../../../common/types';
 
 type QuestionType = 'single' | 'multiple';
 

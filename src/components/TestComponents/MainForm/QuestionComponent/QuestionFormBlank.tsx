@@ -7,10 +7,11 @@ import {
     TextField,
     Stack
 } from '@mui/material';
-import { ImageUploadForm } from '../MainForm/ImageUpload/ImageUploadForm';
-import NextIcon from '../../../common/icons/right-arrow.png';
+import { ImageUploadForm } from '../ImageUpload/ImageUploadForm';
+import NextIcon from '../../../../common/icons/right-arrow.png';
 import { BlankForm } from './BlankForm';
-import { QuestionDto } from "../../../common/types";
+import { QuestionDto } from "../../../../common/types";
+import {Alert} from "evergreen-ui";
 
 interface QuestionFormProps {
     onSaveData: (formData: QuestionDto) => void;
@@ -76,6 +77,14 @@ export function QuestionFormBlank({ onSaveData, questionIndex }: QuestionFormPro
                     </Stack>
                     {!showBlanks ? (
                         <Container>
+                            <Container>
+                                <Alert
+                                    intent="none"
+                                    title="Напишіть відповідь у квадратних дужках, щоб створити пропуск."
+                                    marginBottom={32}
+                                    marginX="64px"
+                                />
+                            </Container>
                             <Container sx={{ margin: '32px' }}>
                                 <TextField
                                     variant="standard"

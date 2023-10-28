@@ -34,15 +34,9 @@ export interface QuestionDto {
 }
 
 export interface UserDTO {
-  // firstName: string;
-  // lastName: string;
-  // phone: string;
-  // gender: string;
-  // birth: string;
   email:string;
   password: string;
   name: string;
-  // tgUserId?: number;
 }
 
 export interface FileDTO
@@ -56,7 +50,9 @@ export interface User extends UserDTO {
   id: number;
 }
 export interface Test extends TestDTO {
-  Id: number;
+  id: number;
+  owner: User;
+  createdAt: Date;
 }
 export interface TrainingDTO {
   name: string;
@@ -77,6 +73,20 @@ export interface Category extends CategoryDTO {
 export interface QuestionType {
   id: number;
   type: string;
+}
+
+export interface Question {
+  id : number;
+  type: QuestionType;
+  title: string;
+  description: string;
+  q_image: string;
+  answers: Array<{
+    text: string;
+    isCorrect: boolean;
+    isStrictText: boolean;
+    a_image: string;
+  }>;
 }
 
 export interface Organization {

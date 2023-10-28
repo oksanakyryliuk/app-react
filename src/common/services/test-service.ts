@@ -41,6 +41,10 @@ export const apiGetTestById = async (id: number): Promise<Test> => {
     return response.data;
 };
 
+export const apiDeleteTestById = async (id: number): Promise<void> => {
+    await httpClient.delete(`Test/${id}`);
+};
+
 export const apiGetCategoriesForTest = async (id: number): Promise<Category[]> => {
     const response = await httpClient.get<Category[]>(`/TestCategory/${id}`);
     return response.data;

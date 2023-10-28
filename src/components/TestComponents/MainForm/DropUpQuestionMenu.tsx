@@ -10,6 +10,7 @@ import FillBankIcon from '../../../common/icons/writing.png';
 import AddOptionIcon from '../../../common/icons/plus.png';
 import {Button, Divider, ListItemIcon, ListItemText} from "@mui/material";
 import StickyBox from "react-sticky-box";
+import {Tooltip} from "evergreen-ui";
 
 interface DropUpQuestionMenuProps {
     onOptionSelect: (option: string) => void;
@@ -56,21 +57,23 @@ export function DropUpQuestionMenu({ onOptionSelect }: DropUpQuestionMenuProps) 
                     Додати запитання
                 </Button>
             </StickyBox>
-            <IconButton
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={handleOpenMenu}
-                sx={{
-                    position: 'fixed',
-                    bottom: '20px',
-                    right: '30px',
-                    zIndex: 1000,
-                    textAlign: 'right'
-                }}
-                size='small'
-            >
-                <img src={AddQuestion} alt='add'/>
-            </IconButton>
+            <Tooltip content="Додати запитання" position='left'>
+                <IconButton
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleOpenMenu}
+                    sx={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '30px',
+                        zIndex: 1000,
+                        textAlign: 'right'
+                    }}
+                    size='small'
+                >
+                    <img src={AddQuestion} alt='add'/>
+                </IconButton>
+            </Tooltip>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}

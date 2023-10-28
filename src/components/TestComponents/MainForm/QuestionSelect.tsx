@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Stack, Button } from '@mui/material';
 import { DropUpQuestionMenu } from './DropUpQuestionMenu';
-import { QuestionFormSingleMultiple } from '../QuestionComponent/QuestionFormSingleMultiple';
-import { QuestionFormBinary } from '../QuestionComponent/QuestionFormBinary';
-import { QuestionFormBlank } from '../QuestionComponent/QuestionFormBlank';
+import { QuestionFormSingleMultiple } from './QuestionComponent/QuestionFormSingleMultiple';
+import { QuestionFormBinary } from './QuestionComponent/QuestionFormBinary';
+import { QuestionFormBlank } from './QuestionComponent/QuestionFormBlank';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { QuestionDto } from "../../../common/types";
 
