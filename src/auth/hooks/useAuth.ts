@@ -2,7 +2,7 @@ import {ForgotPasswordDTO, LoginDTO, RegisterDTO, ResetPasswordDTO, ServerError}
 import {apiForgotPassword, apiLogin, apiRegister, apiResetPassword} from '../../common/services/auth-service';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { AppModules } from '../../enums/AppModules';
+import { AppModules } from '../../common/enums/AppModules';
 import { useLocalStorage } from 'usehooks-ts';
 import { toast } from 'react-toastify';
 import jwt_decode from "jwt-decode";
@@ -13,15 +13,18 @@ export function useAuth() {
   const [token, setToken] = useLocalStorage<string>(TOKEN_STORAGE_KEY, '');
   const navigate = useNavigate();
   const isLoggedIn = !!token;
-    const decodeTokenObject:any = jwt_decode(token);
-    const isAdmin=decodeTokenObject.Role==='Admin'?true:false;
+    const decodeToken:any = token?jwt_decode(token):null;
+    const isAdmin= decodeToken? ( decodeToken.Role !== 'Admin' ? false : true): null;
+        const isUser=decodeToken?(decodeToken.Role==='User'?true:false):null;
+        const isModerator=decodeToken?(decodeToken.Role==='Moderator'?true:false):null;
+
 
   const login = (data: LoginDTO) => {
     apiLogin(data)
         .then((response) => {
           if (typeof response === 'object') {
             setToken(response.token);
-            navigate(AppModules.Main);
+            navigate(AppModules.Home);
           } else {
             // Handle the case where the resolved value is not a string
             console.error('Unexpected token type:', typeof response);
@@ -74,6 +77,8 @@ export function useAuth() {
     navigate(AppModules.Login);
   };
 
-  return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token, isAdmin };
+  return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token, isAdmin,
+      isUser, isModerator
+  };
 }
 
