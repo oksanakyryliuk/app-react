@@ -63,16 +63,6 @@ const QuestionCardSelect = ({ question, questionIndex }: QuestionCardProps) => {
                         <QuizIcon />
                     </Avatar>
                 }
-                /*action={
-                    <Stack sx={{display:'inline-flex', flexDirection:'row'}}>
-                        <IconButton>
-                            <EditIcon color={"info"} />
-                        </IconButton>
-                        <IconButton>
-                            <DeleteForeverIcon color={"error"} />
-                        </IconButton>
-                    </Stack>
-                }*/
                 title={`Запитання №${questionIndex + 1}`}
                 subheader={subheader}
             />

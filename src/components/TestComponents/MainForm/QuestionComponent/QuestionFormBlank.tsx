@@ -16,10 +16,11 @@ import {Alert} from "evergreen-ui";
 interface QuestionFormProps {
     onSaveData: (formData: QuestionDto) => void;
     questionIndex: number;
+    questionDto? : QuestionDto;
 }
 
-export function QuestionFormBlank({ onSaveData, questionIndex }: QuestionFormProps) {
-    const [formData, setFormData] = useState<QuestionDto>({
+export function QuestionFormBlank({ onSaveData, questionIndex, questionDto }: QuestionFormProps) {
+    const [formData, setFormData] = useState<QuestionDto>(questionDto ||{
         type: 'blank',
         title: '',
         description: '',
@@ -83,7 +84,9 @@ export function QuestionFormBlank({ onSaveData, questionIndex }: QuestionFormPro
                                     title="Напишіть відповідь у квадратних дужках, щоб створити пропуск."
                                     marginBottom={32}
                                     marginX="64px"
-                                />
+                                >
+                                    Наприклад, запис "Місто [Київ] - столиця України" створить пропуск "Місто _____ - столиця України".
+                                </Alert>
                             </Container>
                             <Container sx={{ margin: '32px' }}>
                                 <TextField
@@ -132,6 +135,7 @@ export function QuestionFormBlank({ onSaveData, questionIndex }: QuestionFormPro
                                 setFormData(newFormData);
                                 createJSON();
                             }}
+                            questionDto={questionDto}
                         />
                     )}
                 </CardContent>

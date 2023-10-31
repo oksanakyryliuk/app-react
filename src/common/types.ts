@@ -80,12 +80,12 @@ export interface Question {
   type: QuestionType;
   title: string;
   description: string;
-  q_image: string;
+  image: string;
   answers: Array<{
     text: string;
     isCorrect: boolean;
     isStrictText: boolean;
-    a_image: string;
+    image: string;
   }>;
 }
 

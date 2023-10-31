@@ -12,15 +12,16 @@ interface DeleteDialogProps {
     open: boolean;
     onConfirm: () => void;
     onCancel: () => void;
+    itemText: string;
 }
 
-function DeleteTestDialog({ open, onConfirm, onCancel }: DeleteDialogProps) {
+function DeleteDialog({ open, onConfirm, onCancel, itemText }: DeleteDialogProps) {
     return (
         <Dialog open={open} onClose={onCancel}>
             <DialogTitle>Підтвердіть видалення</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Ви впевнені, що бажаєте видалити цей тест?
+                    Ви впевнені, що бажаєте видалити "{itemText}"?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -35,4 +36,4 @@ function DeleteTestDialog({ open, onConfirm, onCancel }: DeleteDialogProps) {
     );
 }
 
-export default DeleteTestDialog;
+export default DeleteDialog;

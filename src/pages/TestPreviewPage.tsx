@@ -13,7 +13,7 @@ import StickyBox from "react-sticky-box";
 import TestCardMainInfo from "../components/TestComponents/TestCardMainInfo";
 import {apiGetTestById} from "../common/services/test-service";
 
-export function TestPreview() {
+export function TestPreviewPage() {
     const { testId } = useParams();
     const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -57,9 +57,14 @@ export function TestPreview() {
 
     const navigate = useNavigate();
 
+    const handleEdit = () => {
+        navigate(`/test/${testId}/edit`);
+    };
+
     const handleSubmit = () => {
         navigate(`/test`);
     };
+
     return (
     <StickyContainer>
         <StickyBox
@@ -88,7 +93,7 @@ export function TestPreview() {
                     <Button
                         variant="outlined"
                         color="secondary"
-                        onClick={handleSubmit}
+                        onClick={handleEdit}
                         style={{marginRight:'4px'}}
                     >
                         Внести зміни

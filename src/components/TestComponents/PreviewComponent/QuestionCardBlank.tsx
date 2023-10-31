@@ -13,11 +13,14 @@ const styles = {
     },
     questionMain: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        lineHeight: '64px',
+        top: "50%",
     },
     media: {
         paddingLeft: '24px',
-        width: '250px',
+        maxWidth: '250px',
+        maxHeight: '350px'
     },
 };
 
@@ -42,7 +45,7 @@ export const QuestionCardBlank = ({ question }: { question: Question }) => {
                                 value={question.answers[index - 1].text}
                                 variant="outlined"
                                 sx={{
-                                    marginTop: '-14px',
+                                    marginTop: '4px',
                                     width: '300px',
                                     overflow: 'visible',
                                     alignContent: 'center',
@@ -83,9 +86,9 @@ export const QuestionCardBlank = ({ question }: { question: Question }) => {
                         </Stack>
                     )}
                 </Box>
-                {question.q_image && (
+                {question.image && (
                     <img
-                        src={question.q_image}
+                        src={question.image}
                         alt="Фотографія запитання"
                         style={styles.media}
                     />

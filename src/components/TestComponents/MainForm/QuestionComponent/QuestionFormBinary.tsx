@@ -15,10 +15,11 @@ import {Radio} from "evergreen-ui";
 interface QuestionFormProps {
     onSaveData: (formData: QuestionDto) => void;
     questionIndex: number;
+    questionDto? : QuestionDto;
 }
 
-export function QuestionFormBinary({ onSaveData, questionIndex }: QuestionFormProps) {
-    const [formData, setFormData] = useState<QuestionDto>({
+export function QuestionFormBinary({ onSaveData, questionIndex, questionDto }: QuestionFormProps) {
+    const [formData, setFormData] = useState<QuestionDto>(questionDto ||{
         type: "binary",
         title: '',
         description: '',
@@ -29,7 +30,7 @@ export function QuestionFormBinary({ onSaveData, questionIndex }: QuestionFormPr
         ],
     });
 
-    const [options, setOptions] = React.useState([
+    const [options, setOptions] = React.useState(questionDto?.answers || [
         { text: 'Правда', isCorrect: false, isStrictText: false, a_image: null },
         { text: 'Брехня', isCorrect: false, isStrictText: false, a_image: null },
     ]);

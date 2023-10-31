@@ -22,10 +22,11 @@ interface QuestionFormCommonProps {
     type: QuestionType;
     onSaveData: (formData: QuestionDto) => void;
     questionIndex: number;
+    questionDto? : QuestionDto;
 }
 
-export function QuestionFormSingleMultiple({ type, onSaveData, questionIndex }: QuestionFormCommonProps) {
-    const [formData, setFormData] = useState<QuestionDto>({
+export function QuestionFormSingleMultiple({ type, onSaveData, questionIndex, questionDto }: QuestionFormCommonProps) {
+    const [formData, setFormData] = useState<QuestionDto>(questionDto || {
         type: type,
         title: '',
         description: '',

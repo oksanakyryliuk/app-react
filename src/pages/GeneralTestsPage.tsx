@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { CreateTestForm } from '../components/TestComponents/ModalCreate/TestForm';
 import TestList from "../components/TestComponents/PreviewComponent/TestList";
-import DeleteTestDialog from "../components/TestComponents/PreviewComponent/DeleteTestDialog";
+import DeleteDialog from "../components/TestComponents/DeleteDialog";
 import { Test } from "../common/types";
 
 export function GeneralTestsPage() {
@@ -46,10 +46,11 @@ export function GeneralTestsPage() {
                 <CreateTestForm />
             </Container>
             <TestList tests={tests} openDeleteDialog={openDeleteDialog} />
-            <DeleteTestDialog
+            <DeleteDialog
                 open={isDeleteDialogOpen}
                 onConfirm={() => handleDeleteTest(testToDeleteId)}
                 onCancel={closeDeleteDialog}
+                itemText="цей тест"
             />
         </Container>
     );

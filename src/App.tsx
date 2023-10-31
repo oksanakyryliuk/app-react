@@ -12,9 +12,10 @@ import { LoginPage } from './auth/login/LoginPage';
 import { HomePage } from './home/HomePage';
 import { RegisterPage } from "./auth/register/Register";
 import {CategoryPage} from "./pages/Category";
-import {TestPage} from "./pages/Test";
+import {TestPage} from "./pages/TestPage";
 import {GeneralTestsPage} from "./pages/GeneralTestsPage";
-import {TestPreview} from "./pages/TestPreview";
+import {TestPreviewPage} from "./pages/TestPreviewPage";
+import {TestEditPage} from "./pages/TestEditPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,7 +28,8 @@ const router = createBrowserRouter(
 
             <Route path={AppModules.Category} element={<CategoryPage />} />
             <Route path='/test/:testId' element={<TestPage />} />
-            <Route path='/test/:testId/preview' element={<TestPreview />} />
+            <Route path='/test/:testId/preview' element={<TestPreviewPage />} />
+            <Route path='/test/:testId/edit' element={<TestEditPage />} />
             <Route path={AppModules.Test} element={<GeneralTestsPage />} />
           <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />

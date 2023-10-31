@@ -9,22 +9,30 @@ export const apiGetQuestionTypes = async (): Promise<QuestionType[]> => {
     return data;
 };
 
-export function apiCreateQuestion(testId: number, data: QuestionDto[])  {
-    return httpClient<User>({
+export async function apiCreateQuestion(testId: number, data: QuestionDto[]) {
+    let response = await httpClient<User>({
         method: 'post',
         url: `Question/${testId}`,
         data,
-    })
-        .then((response) => {
-            // Log the entire response
-            console.log('Response from apiQuestion:', response);
-
-            // Return the response data, or process it as needed
-            return response.data;
-        });
+    });
+    console.log('Response from apiQuestion:', response);
+    return response.data;
 }
 
 export const apiGetQuestionsByTest = async (testId: number): Promise<Question[]> => {
     const {data} = await httpClient.get<Question[]>(`Question/getByTest/${testId}`)
     return data;
 };
+
+export const apiDeleteQuestionById = async (id: number): Promise<void> => {
+    await httpClient.delete(`Question/${id}`);
+};
+
+export async function apiUpdateQuestion(id: number, data: QuestionDto) {
+    const response = await httpClient<User>({
+        method: 'put',
+        url: `Question/${id}`,
+        data,
+    });
+    return response.data;
+}

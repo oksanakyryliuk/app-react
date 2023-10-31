@@ -22,7 +22,8 @@ const styles = {
     },
     media: {
         paddingLeft: '24px',
-        width: '250px',
+        maxWidth: '350px',
+        maxHeight: '350px'
     },
 };
 
@@ -45,9 +46,9 @@ export const QuestionCardOption = ({ question }: { question: Question }) => {
                         helperText={question.description}
                     />
                 </Box>
-                {question.q_image && (
+                {question.image && (
                     <img
-                        src={question.q_image}
+                        src={question.image}
                         alt="Фотографія запитання"
                         style={styles.media}
                     />
@@ -78,9 +79,9 @@ export const QuestionCardOption = ({ question }: { question: Question }) => {
                                 </Typography>
                             </Stack>
                             <Stack sx={{ margin: '8px' }}>
-                                {answer.a_image && (
+                                {answer.image && (
                                     <img
-                                        src={answer.a_image}
+                                        src={answer.image}
                                         alt="Фотографія відповіді"
                                         style={styles.media}
                                     />

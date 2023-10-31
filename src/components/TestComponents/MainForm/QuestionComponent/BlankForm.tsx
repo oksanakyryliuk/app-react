@@ -15,9 +15,10 @@ interface BlankFormProps {
     setShowBlanks: Dispatch<SetStateAction<boolean>>;
     formData: QuestionDto;
     onFormDataChange: (newFormData: QuestionDto) => void;
+    questionDto? : QuestionDto;
 }
 
-export function BlankForm({ formData, setShowBlanks, onFormDataChange }: BlankFormProps) {
+export function BlankForm({ formData, setShowBlanks, onFormDataChange, questionDto }: BlankFormProps) {
     const replaceBlank = formData.title.replace(/\[([^\]]+)\]/g, "___________");
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export function BlankForm({ formData, setShowBlanks, onFormDataChange }: BlankFo
                 matches.push(match[1]);
             }
 
-            formData.answers = matches.map((text) => ({
+            formData.answers = questionDto?.answers || matches.map((text) => ({
                 text,
                 isStrictText: false,
                 isCorrect: false,

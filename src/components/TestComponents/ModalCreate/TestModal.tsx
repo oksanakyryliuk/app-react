@@ -76,7 +76,6 @@ function TestModal({ open, onClose }: TestModalProps) {
         };
         apiCreateTest(testData)
             .then((response: any) => {
-                console.log(response);
                 onClose();
                 navigate(`/test/${response.id}`);
             });
