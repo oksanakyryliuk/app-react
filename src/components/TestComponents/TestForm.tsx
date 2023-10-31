@@ -1,113 +1,126 @@
-import React, { useState } from 'react';
-import {apiCreateTest} from "../../common/services/test-service";
-import {useForm} from "react-hook-form";
-import {TestDTO} from "../../common/types";
-import { Container, Stack, TextField} from "@mui/material";
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, {useEffect, useState} from 'react';
+import { Stack, Button, Typography } from '@mui/material';
+import StickyBox from 'react-sticky-box';
+import {QuestionDto, TestDTO} from "../../common/types";
+import {apiCreateQuestion} from "../../common/services/question-service";
+import {apiGetTestById, apiUpdateTest} from "../../common/services/test-service";
+import TestUpdateComponent from "./ModalUpdate/TestUpdateComponent";
+import {QuestionSelect} from "./MainForm/QuestionSelect";
 import {useNavigate} from "react-router-dom";
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+interface TestFormProps {
+    onCancel: () => void;
+    isEdit: boolean;
+    testId : string | undefined;
+}
 
-export  function TestForm() {
-    const [open, setOpen] = React.useState(false);
-    const { register, handleSubmit, formState: { isValid } } = useForm<TestDTO>();
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const navigate=useNavigate();
-    const onSubmit = (data: TestDTO) => {
-        apiCreateTest(data)
-            .then((response) =>{
-                console.log(response);
-                    navigate(`/test/${response.id}`);
-            }
-            )};
+function TestForm({ onCancel, isEdit, testId }: TestFormProps) {
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [questions, setQuestions] = useState<QuestionDto[]>([]);
+    const navigate = useNavigate();
+    const [testData, setTestData] = useState<TestDTO>({
+        title: '',
+        description: '',
+        duration: 0,
+        categories: [],
+        isPublic: true,
+        status: 'Created',
+    });
+
+    const [state] = useState({
+        public: true,
+    });
+
+    useEffect(() => {
+        if (testId) {
+            apiGetTestById(parseInt(testId))
+                .then((data) => {
+                    setTestData(data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching test data', error);
+                });
+        }
+    }, [testId]);
+
+    const onSubmit = async () => {
+        if (testId == null || !testData.title) return;
+
+        const updatedTestData: TestDTO = {
+            title: testData.title,
+            description: testData.description,
+            duration: testData.duration,
+            categories: selectedCategories,
+            isPublic: state.public,
+            status: 'Created',
+        };
+
+        const testIdParam =  parseInt(testId);
+        try {
+            // Спочатку створюємо питання, а потім відправляємо дані про тест
+            await apiCreateQuestion(testIdParam, questions);
+
+            // Після успішного створення питань відправляємо дані про тест
+            await apiUpdateTest(testIdParam, updatedTestData);
+
+            navigate('/test');
+        } catch (error) {
+            console.error('Помилка при створенні або оновленні тесту', error);
+        }
+    };
+
+    const onSaveCategories = (categories: string[]) => {
+        setSelectedCategories(categories);
+    };
+
     return (
-        <div>
-            <Button onClick={handleOpen}>Create test</Button>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                slots={{ backdrop: Backdrop }}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                }}>
-                <Fade in={open}>
-                    <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
-                        <Container maxWidth="xs" sx={{height: '100%'}}>
-                            <Stack flexDirection="column" alignContent="Center" justifyContent="center" sx={{height: '100%'}}>
-                                <Stack component="form" flexDirection="column" alignContent="Center" justifyContent="center" spacing={3}
-                                       onSubmit={handleSubmit(onSubmit)}>
-                                    <TextField label="Title" variant="outlined" autoFocus {...register('title', {required: true})}/>
-                                    <Button variant="contained" type="submit" disabled={!isValid}>Create</Button>
-                                </Stack>
-                            </Stack>
-                        </Container>
-                    </Box>
-                </Fade>
-            </Modal>
-        </div>
+        <Stack>
+            <StickyBox
+                offsetTop={0}
+                offsetBottom={0}
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 1,
+                    padding: '20px',
+                    margin: '10px',
+                    borderRadius: '10px',
+                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: 'white',
+                }}
+            >
+                <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+                    <Typography variant="h4">{isEdit ? 'Редагувати тест' : 'Створити новий тест'}</Typography>
+                    <Stack style={{ display: 'flex', flexDirection: 'row' }}>
+                        {isEdit && (
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={onCancel}
+                                style={{ marginRight: '4px' }}
+                            >
+                                Скасувати
+                            </Button>
+                        )}
+                        <Button
+                            variant="contained"
+                            color="success"
+                            disabled={!testData.title || (!isEdit && questions.every((question) => !question.title))}
+                            onClick={onSubmit}
+                        >
+                            {isEdit ? 'Зберегти зміни' : 'Створити тест'}
+                        </Button>
+                    </Stack>
+                </Stack>
+            </StickyBox>
+            <Stack>
+                <TestUpdateComponent testData={testData} onTestDataChange={setTestData} onSaveCategories={onSaveCategories} />
+                <QuestionSelect setQuestions={setQuestions}/>
+            </Stack>
+        </Stack>
     );
 }
 
-//
-// // CategoryForm.tsx
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import {apiCreateCategory} from "../common/services/category-service";
-// import {useForm} from "react-hook-form";
-// import {CategoryDTO, LoginDTO} from "../common/types";
-// import {useAuth} from "../auth/hooks/useAuth";
-// import {Button, Container, Stack, TextField} from "@mui/material";
-//
-//
-// interface CategoryFormProps {
-//     createCategory: (data: CategoryDTO) => void; // Визначаємо тип пропу явно
-// }
-// function CategoryForm({ createCategory } : CategoryFormProps) {
-//
-//     const { register, handleSubmit, formState: { isValid } } = useForm<CategoryDTO>();
-//
-//     const onSubmit = (data: CategoryDTO) => {
-//         createCategory(data); // Викликаємо функцію для створення категорії та передаємо дані
-//     };
-//
-//     return (
-//         <Container maxWidth="xs" sx={{height: '100%'}}>
-//             <Stack flexDirection="column" alignContent="Center" justifyContent="center" sx={{height: '100%'}}>
-//                 <Stack component="form" flexDirection="column" alignContent="Center" justifyContent="center" spacing={3}
-//                        onSubmit={handleSubmit(onSubmit)}>
-//                     <TextField label="Title" variant="outlined" autoFocus {...register('title', {required: true})}/>
-//                     <Button variant="contained" type="submit" disabled={!isValid}>Create</Button>
-//                 </Stack>
-//             </Stack>
-//         </Container>
-//     )
-// }
-//
-// export default CategoryForm;
+export default TestForm;

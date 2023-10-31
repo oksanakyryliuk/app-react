@@ -14,11 +14,13 @@ import { HomePage } from './home/HomePage';
 import MainLayout from './common/components/MainLayout';
 import { RegisterPage } from "./auth/register/Register";
 import {CategoryPage} from "./pages/Category";
-import {TestPage} from "./pages/Test";
+import {TestPage} from "./pages/TestPage";
 import {GeneralTestsPage} from "./pages/GeneralTestsPage";
 import {ResetPage} from "./pages/resetPage";
 import {ForgotPage} from "./pages/forgotPage";
 import { ToastContainer } from "react-toastify";
+import {TestPreviewPage} from "./pages/TestPreviewPage";
+import {TestEditPage} from "./pages/TestEditPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -32,6 +34,8 @@ const router = createBrowserRouter(
             <Route path={AppModules.Forgot} element={<ForgotPage/>} />
             <Route path={AppModules.Category} element={<CategoryPage />} />
             <Route path='/test/:testId' element={<TestPage />} />
+            <Route path='/test/:testId/preview' element={<TestPreviewPage />} />
+            <Route path='/test/:testId/edit' element={<TestEditPage />} />
             <Route path={AppModules.Test} element={<GeneralTestsPage />} />
           <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />

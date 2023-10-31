@@ -1,7 +1,5 @@
-
 import { httpClient } from '../http-client';
-import {AuthResponse, TestDTO, Test, User, Category} from "../types";
-
+import { TestDTO, Test, User, Category } from "../types";
 
 export function apiCreateTest(data: TestDTO)  {
     return httpClient<User>({
@@ -16,42 +14,38 @@ export function apiCreateTest(data: TestDTO)  {
             // Return the response data, or process it as needed
             return response.data;
         });
-// .then( ({ data }) => { data });
-}
-//
-// export function apiUpdateCategory(data: Category) {
-//     return httpClient({
-//         method: 'put', // Assuming 'put' is the correct HTTP method for updating a category
-//         url: `Category/${data.id}`, // Use the appropriate URL for updating a specific category
-//         data,
-//     })
-//         .then((response) => {
-//             // Log the entire response
-//             console.log('Response from apiUpdateCategory:', response);
-//
-//             // Return the response data, or process it as needed
-//             return response.data;
-//         });
-// }
-//
-// export function apiDeleteCategory(categoryId: number) {
-//     return httpClient({
-//         method: 'delete',
-//         url: `Category/${categoryId}`, // Use the appropriate URL for deleting a specific category
-//     })
-//         .then((response) => {
-//             // Log the entire response
-//             console.log('Response from apiDeleteCategory:', response);
-//
-//             // Return the response data, or process it as needed
-//             return response.data;
-//         });
-// }
 
-export const apiGetTests = (): Promise<Test[]> => {
-    return httpClient<Test[]>({
+}
+
+export async function apiUpdateTest(id: number, data: TestDTO) {
+    const response = await httpClient<User>({
+        method: 'put',
+        url: `Test/${id}`,
+        data,
+    });
+    console.log('Response from apiUpdateTest:', response);
+    return response.data;
+}
+
+
+export const apiGetTests = async (): Promise<Test[]> => {
+    const {data} = await httpClient<Test[]>({
         method: 'get',
         url: 'Test',
-    }).then(({ data }) => data);
+    });
+    return data;
 };
 
+export const apiGetTestById = async (id: number): Promise<Test> => {
+    const response = await httpClient.get<Test>(`Test/${id}`);
+    return response.data;
+};
+
+export const apiDeleteTestById = async (id: number): Promise<void> => {
+    await httpClient.delete(`Test/${id}`);
+};
+
+export const apiGetCategoriesForTest = async (id: number): Promise<Category[]> => {
+    const response = await httpClient.get<Category[]>(`/TestCategory/${id}`);
+    return response.data;
+};

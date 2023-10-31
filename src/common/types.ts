@@ -29,19 +29,37 @@ export interface CategoryDTO {
 }
 export interface TestDTO {
   title: string;
+  description: string;
+  duration: number;
+  categories: string[];
+  isPublic: boolean;
+  status: string;
 }
 
+export interface QuestionDto {
+  type: string;
+  title: string;
+  description: string;
+  q_image: FileDTO | null;
+  answers: Array<{
+    text: string;
+    isCorrect: boolean;
+    isStrictText: boolean;
+    a_image: FileDTO | null;
+  }>;
+}
 
 export interface UserDTO {
-  // firstName: string;
-  // lastName: string;
-  // phone: string;
-  // gender: string;
-  // birth: string;
   email:string;
   password: string;
   name: string;
-  // tgUserId?: number;
+}
+
+export interface FileDTO
+{
+  fileName: string;
+  contentType: string;
+  data: number[];
 }
 
 export interface User extends UserDTO {
@@ -49,6 +67,8 @@ export interface User extends UserDTO {
 }
 export interface Test extends TestDTO {
   id: number;
+  owner: User;
+  createdAt: Date;
 }
 export interface TrainingDTO {
   name: string;
@@ -64,6 +84,25 @@ export interface Training extends TrainingDTO {
 
 export interface Category extends CategoryDTO {
   id: number;
+}
+
+export interface QuestionType {
+  id: number;
+  type: string;
+}
+
+export interface Question {
+  id : number;
+  type: QuestionType;
+  title: string;
+  description: string;
+  image: string;
+  answers: Array<{
+    text: string;
+    isCorrect: boolean;
+    isStrictText: boolean;
+    image: string;
+  }>;
 }
 
 export interface Organization {

@@ -1,10 +1,5 @@
-// CategoryForm.tsx
-import React, { useState } from 'react';
-import axios from 'axios';
-import {apiCreateCategory} from "../common/services/category-service";
 import {useForm} from "react-hook-form";
-import {CategoryDTO, LoginDTO} from "../common/types";
-import {useAuth} from "../auth/hooks/useAuth";
+import {CategoryDTO} from "../common/types";
 import {Button, Container, Stack, TextField} from "@mui/material";
 
 
@@ -16,7 +11,7 @@ function CategoryForm({ createCategory } : CategoryFormProps) {
   const { register, handleSubmit, formState: { isValid } } = useForm<CategoryDTO>();
 
   const onSubmit = (data: CategoryDTO) => {
-    createCategory(data); // Викликаємо функцію для створення категорії та передаємо дані
+    createCategory(data);
   };
 
   return (
