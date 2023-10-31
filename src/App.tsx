@@ -16,6 +16,8 @@ import {TestPage} from "./pages/TestPage";
 import {GeneralTestsPage} from "./pages/GeneralTestsPage";
 import {TestPreviewPage} from "./pages/TestPreviewPage";
 import {TestEditPage} from "./pages/TestEditPage";
+import { PrivateRoutes } from './common/private-routes';
+import MainLayout from './common/components/MainLayout';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
