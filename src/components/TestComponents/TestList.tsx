@@ -7,7 +7,7 @@ export const TestCardList = ({ tests }: {tests: Array<Test>}) => {
     return (
         <ListItem >
             {tests.map((test, index) => (
-                <TestCard  key={index} title={test.title} image={test.image} />
+                <TestCard  key={index} title={test.title}  />
             ))}
         </ListItem>
     );
