@@ -8,7 +8,7 @@ export function TestPage() {
     const navigate = useNavigate();
 
     const onCancel = () => {
-        navigate('/test');
+        navigate('/my-tests');
     }
 
     return (

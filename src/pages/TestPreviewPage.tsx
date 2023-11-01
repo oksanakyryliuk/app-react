@@ -62,7 +62,7 @@ export function TestPreviewPage() {
     };
 
     const handleSubmit = () => {
-        navigate(`/test`);
+        navigate(`/my-tests`);
     };
 
     return (

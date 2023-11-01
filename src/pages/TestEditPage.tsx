@@ -22,7 +22,7 @@ export function TestEditPage() {
     }, []);
 
     const onCancel = () => {
-        navigate('/test');
+        navigate('/my-tests');
     }
 
     return (
