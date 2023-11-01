@@ -54,7 +54,6 @@ function TestForm({ onCancel, isEdit, testId }: TestFormProps) {
             isPublic: state.public,
             status: 'Created',
         };
-
         const testIdParam =  parseInt(testId);
         try {
             // Спочатку створюємо питання, а потім відправляємо дані про тест
@@ -63,7 +62,7 @@ function TestForm({ onCancel, isEdit, testId }: TestFormProps) {
             // Після успішного створення питань відправляємо дані про тест
             await apiUpdateTest(testIdParam, updatedTestData);
 
-            navigate('/test');
+            navigate('/my-tests');
         } catch (error) {
             console.error('Помилка при створенні або оновленні тесту', error);
         }

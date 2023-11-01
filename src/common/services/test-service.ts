@@ -27,11 +27,26 @@ export async function apiUpdateTest(id: number, data: TestDTO) {
     return response.data;
 }
 
-
 export const apiGetTests = async (): Promise<Test[]> => {
     const {data} = await httpClient<Test[]>({
         method: 'get',
-        url: 'Test',
+        url: 'Test/GetAll',
+    });
+    return data;
+};
+
+export const apiGetTestsByUser = async (): Promise<Test[]> => {
+    const {data} = await httpClient<Test[]>({
+        method: 'get',
+        url: 'Test/GetByUser',
+    });
+    return data;
+};
+
+export const apiGetPublicTests = async (): Promise<Test[]> => {
+    const {data} = await httpClient<Test[]>({
+        method: 'get',
+        url: 'Test/GetPublicTests',
     });
     return data;
 };
