@@ -21,6 +21,7 @@ import { ToastContainer } from "react-toastify";
 import {TestPreviewPage} from "./pages/TestPreviewPage";
 import {TestEditPage} from "./pages/TestEditPage";
 import {UserTestsPage} from "./pages/UserTestsPage";
+import {ConfirmPage} from "./pages/ConfirmPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -68,7 +69,7 @@ const router = createBrowserRouter(
             <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />
             <Route path='/reset/:userEmail/:token' element={<ResetPage/>} />
-            <Route path='/confirm/:userEmail/:token' element={<ResetPage/>} />
+            <Route path='/confirm/:userEmail/:token' element={<ConfirmPage/>} />
             <Route path={AppModules.Forgot} element={<ForgotPage/>} />
         </>,
     ),

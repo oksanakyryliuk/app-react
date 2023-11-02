@@ -1,5 +1,18 @@
-import {ForgotPasswordDTO, LoginDTO, RegisterDTO, ResetPasswordDTO, ServerError} from '../../common/types';
-import {apiForgotPassword, apiLogin, apiRegister, apiResetPassword} from '../../common/services/auth-service';
+import {
+    ConfirmEmailDTO,
+    ForgotPasswordDTO,
+    LoginDTO,
+    RegisterDTO,
+    ResetPasswordDTO,
+    ServerError
+} from '../../common/types';
+import {
+    apiConfirmEmail,
+    apiForgotPassword,
+    apiLogin,
+    apiRegister,
+    apiResetPassword
+} from '../../common/services/auth-service';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AppModules } from '../../common/enums/AppModules';
@@ -39,7 +52,7 @@ export function useAuth() {
         const registerUser = (data: RegisterDTO) => {
             apiRegister(data)
                 .then(() => {
-                    toast.success('Registered successfully')
+                    toast.success('Registered successfully. Please check your email and verify your account')
                     console.log("register ")
                 })
                 .catch(({ response }: AxiosError<ServerError>) => {
@@ -58,6 +71,19 @@ export function useAuth() {
                 toast.error(`Error message: ${response?.data.message}`);
             });
     };
+
+    const confirmEmail= (data: ConfirmEmailDTO) => {
+        console.log(data)
+        apiConfirmEmail(data)
+            .then(() => {
+                toast.success('Confirm email successfully')
+                console.log("reset ")
+            })
+            .catch(({ response }: AxiosError<ServerError>) => {
+                toast.error(`Error message: ${response?.data.message}`);
+            });
+    };
+
 
     const forgotPassword= (data: ForgotPasswordDTO) => {
         console.log(data)
@@ -78,7 +104,7 @@ export function useAuth() {
   };
 
   return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token, isAdmin,
-      isUser
+      isUser, confirmEmail
   };
 }
 

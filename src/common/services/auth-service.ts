@@ -1,4 +1,13 @@
-import {AuthResponse, LoggedInUser, LoginDTO, User, RegisterDTO, ResetPasswordDTO, ForgotPasswordDTO} from '../types';
+import {
+  AuthResponse,
+  LoggedInUser,
+  LoginDTO,
+  User,
+  RegisterDTO,
+  ResetPasswordDTO,
+  ForgotPasswordDTO,
+  ConfirmEmailDTO
+} from '../types';
 import { httpClient } from '../http-client';
 
 
@@ -34,6 +43,15 @@ export function apiResetPassword(data: ResetPasswordDTO) {
     data,
   }).then(({ data }) => data);
 }
+
+export function apiConfirmEmail(data: ConfirmEmailDTO) {
+  return httpClient<any>({
+    method: 'patch',
+    url: 'Auth/verify',
+    data,
+  }).then(({ data }) => data);
+}
+
 
 export function apiForgotPassword(data: ForgotPasswordDTO) {
   return httpClient<any>({
