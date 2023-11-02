@@ -11,6 +11,7 @@ import { blue } from "@mui/material/colors";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Test } from "../../common/types";
 import CategoryChip from "./PreviewComponent/CategoryChip";
+import { useNavigate } from 'react-router-dom';
 
 interface TestCardProps {
     testData: Test;
@@ -32,7 +33,14 @@ const TestCardMainInfo = ({ testData }: TestCardProps) => {
         return `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
     }
 
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/test/${testData.id}/preview`);
+    };
+
     return (
+        <div onClick={handleCardClick}>
         <Card elevation={0} style={{width:'100%'}}>
             <CardHeader
                 avatar={
@@ -57,6 +65,8 @@ const TestCardMainInfo = ({ testData }: TestCardProps) => {
                 </Stack>
             </CardContent>
         </Card>
+
+        </div>
     );
 };
 

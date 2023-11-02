@@ -15,8 +15,7 @@ export function useAuth() {
   const isLoggedIn = !!token;
     const decodeToken:any = token?jwt_decode(token):null;
     const isAdmin= decodeToken? ( decodeToken.Role !== 'Admin' ? false : true): null;
-        const isUser=decodeToken?(decodeToken.Role==='User'?true:false):null;
-        const isModerator=decodeToken?(decodeToken.Role==='Moderator'?true:false):null;
+    const isUser=decodeToken?(decodeToken.Role==='User'?true:false):null;
 
 
   const login = (data: LoginDTO) => {
@@ -79,7 +78,7 @@ export function useAuth() {
   };
 
   return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token, isAdmin,
-      isUser, isModerator
+      isUser
   };
 }
 
