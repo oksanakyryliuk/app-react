@@ -65,8 +65,7 @@ export default function ButtonAppBar() {
                  <Button color="inherit" onClick={handleButtonClick} > Logout</Button>
                     ) : (
                         <p>
-                            <Button color="inherit" onClick={handleClickLogin} > Login / Sign Up</Button>
-
+                            <Button color="inherit" onClick={handleClickLogin} > Login</Button>
                         </p>
                     )}
 
