@@ -32,6 +32,7 @@ export function useAuth() {
         })
         .catch(({ response }: AxiosError<ServerError>) => {
           console.log(response?.data.message);
+            toast.error(`Error message: ${response?.data}`);
         });
   }
 
