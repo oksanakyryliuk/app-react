@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { AppModules } from '../../enums/AppModules';
 import { useLocalStorage } from 'usehooks-ts';
 import { toast } from 'react-toastify';
+import jwt_decode from "jwt-decode";
+
 export const TOKEN_STORAGE_KEY = 'authData';
 
 export function useAuth() {
   const [token, setToken] = useLocalStorage<string>(TOKEN_STORAGE_KEY, '');
   const navigate = useNavigate();
   const isLoggedIn = !!token;
+    const decodeTokenObject:any = jwt_decode(token);
+    const isAdmin=decodeTokenObject.Role==='Admin'?true:false;
 
   const login = (data: LoginDTO) => {
     apiLogin(data)
@@ -70,6 +74,6 @@ export function useAuth() {
     navigate(AppModules.Login);
   };
 
-  return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token };
+  return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token, isAdmin };
 }
 

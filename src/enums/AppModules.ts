@@ -5,5 +5,6 @@ export enum AppModules {
   Register='/register',
   Category = '/category',
   Test='/test',
-  Forgot='/forgot'
+  Forgot='/forgot',
+  Admin='/admin'
 }
