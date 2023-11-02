@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import {muiDarkTheme} from "./common/config/theme"
-import {PrivateRoutesAdmin, PrivateRoutesModerator, PrivateRoutesUser} from './common/private-routes';
+import {PrivateRoutesAdmin, PrivateRoutesUser} from './common/private-routes';
 import { AppModules } from './common/enums/AppModules';
 import { LoginPage } from './auth/login/LoginPage';
 import { HomePage } from './home/HomePage';
@@ -40,7 +40,7 @@ const router = createBrowserRouter(
             <Route path='/my-tests' element={<UserTestsPage />} />
           <Route path={AppModules.Login} element={<LoginPage />} />
           <Route element={<PrivateRoutesAdmin />}>
-                <Route path={AppModules.Admin} element={<MainLayout />}/>
+                {/*<Route path={AppModules.Admin} element={<MainLayout />}/>*/}
                 <Route path={AppModules.Category} element={<CategoryPage />} />
               <Route path='/reset/:userEmail/:token' element={<ResetPage/>} />
               <Route path={AppModules.Forgot} element={<ForgotPage/>} />

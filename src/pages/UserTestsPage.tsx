@@ -9,6 +9,7 @@ import DeleteDialog from "../components/TestComponents/DeleteDialog";
 import { Test } from "../common/types";
 import TestListWithMenu from "../components/TestComponents/TestListWithMenu";
 import { Alert } from 'evergreen-ui';
+import ButtonAppBar from "../layouts/someting/nav";
 
 const styles = {
     container: {
@@ -62,6 +63,8 @@ export function UserTestsPage() {
     };
 
     return (
+        <div>
+            <ButtonAppBar></ButtonAppBar>
         <Container>
             <Container style={{ margin: "10px 20px" }}>
                 <Typography style={styles.heading}>Мої тести</Typography>
@@ -85,5 +88,6 @@ export function UserTestsPage() {
                 itemText="цей тест"
             />
         </Container>
+            </div>
     );
 }
