@@ -6,8 +6,9 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import {muiDarkTheme} from "./config/theme"
-import { AppModules } from './enums/AppModules';
+import {muiDarkTheme} from "./common/config/theme"
+import {PrivateRoutesAdmin, PrivateRoutesModerator, PrivateRoutesUser} from './common/private-routes';
+import { AppModules } from './common/enums/AppModules';
 import { LoginPage } from './auth/login/LoginPage';
 import { HomePage } from './home/HomePage';
 import { RegisterPage } from "./auth/register/Register";
@@ -38,6 +39,30 @@ const router = createBrowserRouter(
             <Route path={AppModules.Test} element={<GeneralTestsPage />} />
             <Route path='/my-tests' element={<UserTestsPage />} />
           <Route path={AppModules.Login} element={<LoginPage />} />
+          <Route element={<PrivateRoutesAdmin />}>
+                <Route path={AppModules.Admin} element={<MainLayout />}/>
+                <Route path={AppModules.Category} element={<CategoryPage />} />
+              <Route path='/reset/:userEmail/:token' element={<ResetPage/>} />
+              <Route path={AppModules.Forgot} element={<ForgotPage/>} />
+              <Route path='/test/:testId' element={<TestPage />} />
+              {/*<Route path={AppModules.Test} element={<GeneralTestsPage />} />*/}
+          </Route>
+
+            <Route element={<PrivateRoutesModerator />}>
+            </Route>
+
+            <Route element={<PrivateRoutesUser />}>
+                <Route path={AppModules.User} element={<MainLayout />}/>
+                {/*<Route path={AppModules.Category} element={<CategoryPage />} />*/}
+                {/*<Route path='/reset/:userEmail/:token' element={<ResetPage/>} />*/}
+                {/*<Route path={AppModules.Forgot} element={<ForgotPage/>} />*/}
+                {/*<Route path='/test/:testId' element={<TestPage />} />*/}
+                {/*<Route path={AppModules.Test} element={<GeneralTestsPage />} />*/}
+            </Route>
+
+
+
+            <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />
         </>,
     ),
