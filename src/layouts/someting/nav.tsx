@@ -76,6 +76,9 @@ export default function ButtonAppBar() {
         navigate(AppModules.User); // Perform the redirection
     };
 
+    const handleClicAlCategoris =() => {
+        navigate(AppModules.Category); // Perform the redirection
+    };
 
     return (
         <React.Fragment>
@@ -195,6 +198,7 @@ export default function ButtonAppBar() {
             {/*)}*/}
 
             <MenuItem onClick={isAdmin ? handleClicAllUsers : handleClicMytest}>
+
                 <ListItemIcon>
                     {isLoggedIn &&isAdmin ? (
                         <GroupIcon fontSize="small" /> // Replace with your "All Users" icon component
@@ -209,7 +213,7 @@ export default function ButtonAppBar() {
 
             {isLoggedIn &&isAdmin?
                 (
-            <MenuItem onClick={isAdmin ? handleClicAllUsers : handleClicMytest}>
+            <MenuItem onClick={handleClicAlCategoris}>
                 <ListItemIcon>
                         <CategoryIcon fontSize="small" />
                 </ListItemIcon>
