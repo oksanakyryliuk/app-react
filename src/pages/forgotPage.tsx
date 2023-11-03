@@ -13,7 +13,13 @@ export const ForgotPage = () =>{
     return (
         <div>
             <Container maxWidth="xs" sx={{ height: '100%' }}>
-                <h1>Reset Password</h1>
+                <h1 style={{ textAlign: 'center' }}>Forgot Password</h1>
+
+
+                <div style={{ textAlign: 'center', margin:'3px' }}>
+                    <p style={{ textAlign: 'left', fontSize: '14px' }}>Please enter your email</p>
+                </div>
+
                 <Stack flexDirection="column" alignContent="center" justifyContent="center" sx={{ height: '100%' }}>
                     <Stack component="form" flexDirection="column" alignContent="center" justifyContent="center" spacing={3}
                            onSubmit={handleSubmit(forgotPassword)}>

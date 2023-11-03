@@ -1,9 +1,12 @@
 export enum AppModules {
   Home = '/',
-  Main = '/main',
   Login = '/login',
   Register='/register',
   Category = '/category',
   Test='/test',
-  Forgot='/forgot'
+  Forgot='/forgot',
+  Admin='/admin',
+  User='/users',
+  MyTests='/my-tests',
+  Profile='/profile'
 }

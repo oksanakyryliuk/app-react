@@ -15,7 +15,7 @@ function CategoryForm({ createCategory } : CategoryFormProps) {
   };
 
   return (
-      <Container maxWidth="xs" sx={{height: '100%'}}>
+      <Container maxWidth="sm" sx={{height: '100%'}}>
         <Stack flexDirection="column" alignContent="Center" justifyContent="center" sx={{height: '100%'}}>
           <Stack component="form" flexDirection="column" alignContent="Center" justifyContent="center" spacing={3}
                  onSubmit={handleSubmit(onSubmit)}>

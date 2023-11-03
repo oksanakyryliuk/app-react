@@ -8,7 +8,7 @@ export const RegisterPage = () => {
     const {register, handleSubmit, formState: {isValid}} = useForm<RegisterDTO>();
     const {registerUser} = useAuth();
     return (
-        <Container maxWidth="xs" sx={{height: '100%'}}>
+        <Container maxWidth="xs" sx={{height: '100%', marginTop: '30px'}}>
             <Stack flexDirection="column" alignContent="Center" justifyContent="center" sx={{height: '100%'}}>
                 <Stack component="form" flexDirection="column" alignContent="Center" justifyContent="center" spacing={3}
                        onSubmit={handleSubmit(registerUser)}>

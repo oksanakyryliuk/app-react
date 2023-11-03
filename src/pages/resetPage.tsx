@@ -62,7 +62,7 @@ export function ResetPage() {
                 <Stack flexDirection="column" alignContent="Center" justifyContent="center" sx={{height: '100%'}}>
                     <Stack component="form" flexDirection="column" alignContent="Center" justifyContent="center" spacing={3}
                            onSubmit={handleSubmit(customSubmit)}>
-                        <TextField label="New password" variant="outlined" autoFocus {...register('password', {required: true})}/>
+                        <TextField label="New password" variant="outlined"  type="password" autoFocus {...register('password', {required: true})}/>
                         <TextField label="Confirm  new password" type="password"
                                    variant="outlined" {...register('confirmPassword', {required: true})}/>
                         <Button variant="contained" type="submit" disabled={!isValid}>Submit</Button>

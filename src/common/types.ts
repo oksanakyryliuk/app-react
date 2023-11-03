@@ -19,6 +19,12 @@ export interface ResetPasswordDTO {
 export interface ForgotPasswordDTO {
   email: string;
 }
+
+export interface ConfirmEmailDTO {
+  email: string;
+  token: string;
+}
+
 export interface RegisterDTO {
   email: string;
   password: string;

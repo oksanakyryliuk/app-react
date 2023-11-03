@@ -5,6 +5,8 @@ import axios from 'axios';
 import {apiGetCategories} from "../common/services/category-service";
 import {Category, CategoryDTO} from "../common/types";
 import {apiCreateCategory, apiUpdateCategory, apiDeleteCategory} from "../common/services/category-service";
+import ButtonAppBar from "../layouts/someting/nav";
+import {Container} from "@mui/material";
 
 export function CategoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -50,13 +52,18 @@ export function CategoryPage() {
 
 
   return (
+      <div>
+          <ButtonAppBar></ButtonAppBar>
+          <Container>
       <div style={{ margin: "10px 20px" }}>
-        <h1>Category Manager</h1>
+        <h1 style={{textAlign:"center"}}>Category Manager</h1>
         <CategoryForm createCategory={createCategory} />
         <CategoryTable   categories={categories}
                          updateCategory={updateCategory}
             deleteCategory={deleteCategory}
           />
+      </div>
+          </Container>
       </div>
   );
 }
