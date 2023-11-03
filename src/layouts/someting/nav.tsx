@@ -73,7 +73,7 @@ export default function ButtonAppBar() {
         navigate(AppModules.MyTests); // Perform the redirection
     };
     const handleClicAllUsers =() => {
-        navigate(AppModules.Category); // Perform the redirection
+        navigate(AppModules.User); // Perform the redirection
     };
 
 

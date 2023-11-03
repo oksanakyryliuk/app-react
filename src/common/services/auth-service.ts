@@ -52,6 +52,24 @@ export function apiConfirmEmail(data: ConfirmEmailDTO) {
   }).then(({ data }) => data);
 }
 
+export function apiDeleteUsers(userId: number) {
+  return httpClient({
+    method: 'delete',
+    url: `Auth/DeleteUser/${userId}`, // Use the appropriate URL for deleting a specific category
+  })
+      .then((response) => {
+        return response.data;
+      });
+}
+
+export function apiGetUsers() {
+  return httpClient<any>({
+    method: 'get',
+    url: 'Auth/GetUsers'
+  }).then(({ data }) => data);
+}
+
+
 
 export function apiForgotPassword(data: ForgotPasswordDTO) {
   return httpClient<any>({
@@ -67,6 +85,6 @@ export function apiForgotPassword(data: ForgotPasswordDTO) {
 export function getLoggedInUser() {
   return httpClient<User>({
     method: 'get',
-    url: `/api/Auth`,
+    url: `/Auth`,
   }).then(({ data }) => data);
 }

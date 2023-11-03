@@ -22,6 +22,7 @@ import {TestPreviewPage} from "./pages/TestPreviewPage";
 import {TestEditPage} from "./pages/TestEditPage";
 import {UserTestsPage} from "./pages/UserTestsPage";
 import {ConfirmPage} from "./pages/ConfirmPage";
+import {UsersPage} from "./pages/Users";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,42 +31,17 @@ const router = createBrowserRouter(
 
           <Route element={<PrivateRoutesAdmin />}>
               <Route path={AppModules.Category} element={<CategoryPage />} />
-
+              <Route path={AppModules.User} element={<UsersPage />} />
           </Route>
-
-
-            <Route path='/test/:testId' element={<TestPage />} />
-
-
-
-            <Route path={AppModules.Test} element={<GeneralTestsPage />} />
-            <Route path='/test/:testId/preview' element={<TestPreviewPage />} />
-
-          <Route path={AppModules.Login} element={<LoginPage />} />
-
-                {/*<Route element={<PrivateRoutesAdmin />}>*/}
-                {/*<Route path={AppModules.Admin} element={<MainLayout />}/>*/}
-                <Route path={AppModules.Category} element={<CategoryPage />} />
-
-              <Route path='/test/:testId' element={<TestPage />} />
-              <Route path='/reset/:userEmail/:token' element={<ResetPage/>} />
-
-              {/*<Route path={AppModules.Test} element={<GeneralTestsPage />} />*/}
-          {/*</Route>*/}
-
 
             <Route element={<PrivateRoutesUser />}>
                 <Route path={AppModules.MyTests} element={<UserTestsPage />} />
                 <Route path='/test/:testId/edit' element={<TestEditPage />} />
-                {/*<Route path={AppModules.User} element={<MainLayout />}/>*/}
-                {/*<Route path={AppModules.Category} element={<CategoryPage />} />*/}
-                {/*<Route path='/reset/:userEmail/:token' element={<ResetPage/>} />*/}
-                {/*<Route path={AppModules.Forgot} element={<ForgotPage/>} />*/}
-                {/*<Route path='/test/:testId' element={<TestPage />} />*/}
-                {/*<Route path={AppModules.Test} element={<GeneralTestsPage />} />*/}
+                <Route path='/test/:testId' element={<TestPage />} />
             </Route>
 
-
+            <Route path={AppModules.Test} element={<GeneralTestsPage />} />
+            <Route path='/test/:testId/preview' element={<TestPreviewPage />} />
             <Route path={AppModules.Login} element={<LoginPage />} />
             <Route path={AppModules.Register} element={<RegisterPage />} />
             <Route path='/reset/:userEmail/:token' element={<ResetPage/>} />
