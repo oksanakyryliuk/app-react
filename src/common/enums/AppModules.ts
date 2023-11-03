@@ -7,5 +7,6 @@ export enum AppModules {
   Forgot='/forgot',
   Admin='/admin',
   User='/users',
-  MyTests='/my-tests'
+  MyTests='/my-tests',
+  Profile='/profile'
 }

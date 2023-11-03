@@ -25,6 +25,7 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import GroupIcon from '@mui/icons-material/Group';
 import {useAuthStore} from "../../auth/store/useAuthStore";
 import CategoryIcon from '@mui/icons-material/Category';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function ButtonAppBar() {
     const { isLoggedIn, isAdmin, isUser } = useAuth(); // Assuming you have access to user roles
@@ -63,8 +64,15 @@ export default function ButtonAppBar() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+
     };
 
+    const handlePlofle = () => {
+        navigate(AppModules.Profile);
+    };
+    const handle = () => {
+        navigate(AppModules.Home);
+    };
     const handleClicTests = () => {
         navigate(AppModules.Test); // Perform the redirection
     };
@@ -167,10 +175,21 @@ export default function ButtonAppBar() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-            <MenuItem onClick={handleClose}>
-                <Avatar /> Мій акаунт
+
+
+            <MenuItem onClick={handle}>
+            <HomeIcon/>
+                Головна
             </MenuItem>
-            <Divider />
+
+            {isLoggedIn?
+                (
+                    <MenuItem onClick={handlePlofle}>
+                        <Avatar /> Мій акаунт
+                    </MenuItem>
+
+                ): null }
+
 
             <MenuItem onClick={handleClicTests}>
                 <ListItemIcon>

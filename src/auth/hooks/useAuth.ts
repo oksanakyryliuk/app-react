@@ -29,7 +29,7 @@ export function useAuth() {
     const decodeToken:any = token?jwt_decode(token):null;
     const isAdmin= decodeToken? ( decodeToken.Role !== 'Admin' ? false : true): null;
     const isUser=decodeToken?(decodeToken.Role==='User'?true:false):null;
-
+    const email=decodeToken?(decodeToken.Email):null;
 
   const login = (data: LoginDTO) => {
     apiLogin(data)
@@ -104,7 +104,7 @@ export function useAuth() {
   };
 
   return { login, registerUser, logout, resetPassword, forgotPassword, isLoggedIn, token, isAdmin,
-      isUser, confirmEmail
+      isUser, confirmEmail, email
   };
 }
 

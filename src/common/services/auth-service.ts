@@ -80,7 +80,13 @@ export function apiForgotPassword(data: ForgotPasswordDTO) {
 }
 
 
-
+export function getUser(email: any) {
+  return httpClient<any>({
+    method: 'get',
+    url: `/Auth/user?email=${email}`,
+    data: email
+  }).then(({ data }) => data);
+}
 
 export function getLoggedInUser() {
   return httpClient<User>({
