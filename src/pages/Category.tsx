@@ -1,55 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import CategoryForm from '../components/CategoryForm';
-import CategoryTable from '../components/CategoryTable';
-import axios from 'axios';
 import {apiGetCategories} from "../common/services/category-service";
 import {Category, CategoryDTO} from "../common/types";
-import {apiCreateCategory, apiUpdateCategory, apiDeleteCategory} from "../common/services/category-service";
+import {useCategories} from "./hooks/category";
 import ButtonAppBar from "../layouts/someting/nav";
-import {Container} from "@mui/material";
-
+import {Container} from '@mui/material';
+import CategoryForm from "../components/CategoryForm";
+import CategoryTable from "../components/CategoryTable";
+// import CategoryHooks from './hooks/category'
+//
 export function CategoryPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const {updateCategory, createCategory, deleteCategory} = useCategories();
 
-  useEffect(() => {
-    loadCategories(); // Функція для завантаження категорій при першому завантаженні компонента
-  }, []);
+    useEffect(() => {
+        loadCategories(); // Функція для завантаження категорій при першому завантаженні компонента
+    }, []);
 
-  const loadCategories = () => {
-    apiGetCategories().then(categories => setCategories(categories));
-  };
-
-  const createCategory = (newCategory: CategoryDTO) => {
-    apiCreateCategory(newCategory)
-        .then(() => {
-          // Після успішного створення категорії оновлюємо список
-          loadCategories();
-        })
-        .catch((error) => {
-          console.error('Error creating category: ', error);
-        });
-  };
-
-  const updateCategory = (categoryToUpdate: Category) => {
-    apiUpdateCategory(categoryToUpdate)
-        .then(() => {
-          loadCategories();
-        })
-        .catch((error) => {
-          console.error('Error updating category: ', error);
-        });
-  };
-
-  const deleteCategory = (categoryId: number) => {
-    apiDeleteCategory(categoryId)
-        .then(() => {
-          loadCategories();
-        })
-        .catch((error) => {
-          console.error('Error deleting category: ', error);
-        });
-  };
-
+    const loadCategories = () => {
+        apiGetCategories().then(categories => setCategories(categories));
+    };
 
   return (
       <div>
@@ -60,7 +29,7 @@ export function CategoryPage() {
         <CategoryForm createCategory={createCategory} />
         <CategoryTable   categories={categories}
                          updateCategory={updateCategory}
-            deleteCategory={deleteCategory}
+                         deleteCategory={deleteCategory}
           />
       </div>
           </Container>
