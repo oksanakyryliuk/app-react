@@ -25,15 +25,10 @@ export function ConfirmPage() {
                     token: token??"",
                 }
             console.log(sendData)
-            // You can perform any custom logic here before submitting the form
-            // For example, making an API request with the form data
             await confirmEmail(sendData)
-
             navigate(AppModules.Login)
-            // Handle the response as needed
 
         } catch (error) {
-            // Handle any errors, e.g., network issues
         }
     };
 
