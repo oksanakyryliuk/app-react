@@ -26,7 +26,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import {useAuthStore} from "../../auth/store/useAuthStore";
 import CategoryIcon from '@mui/icons-material/Category';
 import HomeIcon from '@mui/icons-material/Home';
-
+import { Navigate } from 'react-router-dom'
 export default function ButtonAppBar() {
     const { isLoggedIn, isAdmin, isUser } = useAuth(); // Assuming you have access to user roles
     const navigate = useNavigate();
@@ -38,21 +38,8 @@ export default function ButtonAppBar() {
         loadUser();
     }, [token]);
 
-    if (isLoggedIn&&isAdmin) {
-            redirectTo = AppModules.Admin;
-        }
-    if (isLoggedIn&&isUser) {
-        redirectTo = AppModules.User;
-    }
-
-    const handleClickLogin = () => {
-        navigate(AppModules.Login); // Perform the redirection
-    };
-
     const handleButtonClick = () => {
         if (isLoggedIn) {
-            // Якщо користувач ввійшов в систему, то робимо логаут.
-            // Видалення токену з локального сховища.
             localStorage.setItem('authData', '');
             window.location.reload();
         }
@@ -64,47 +51,13 @@ export default function ButtonAppBar() {
     };
     const handleClose = () => {
         setAnchorEl(null);
-
     };
 
-    const handlePlofle = () => {
-        navigate(AppModules.Profile);
-    };
-    const handle = () => {
-        navigate(AppModules.Home);
-    };
-    const handleClicTests = () => {
-        navigate(AppModules.Test); // Perform the redirection
-    };
-
-    const handleClicMytest = () => {
-        navigate(AppModules.MyTests); // Perform the redirection
-    };
-    const handleClicAllUsers =() => {
-        navigate(AppModules.User); // Perform the redirection
-    };
-
-    const handleClicAlCategoris =() => {
-        navigate(AppModules.Category); // Perform the redirection
-    };
 
     return (
         <React.Fragment>
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-
-                {/*<Tooltip title="Account settings">*/}
-                {/*    <IconButton*/}
-                {/*        onClick={handleClick}*/}
-                {/*        size="small"*/}
-                {/*        sx={{ ml: 2 }}*/}
-                {/*        aria-controls={open ? 'account-menu' : undefined}*/}
-                {/*        aria-haspopup="true"*/}
-                {/*        aria-expanded={open ? 'true' : undefined}*/}
-                {/*    >*/}
-                {/*        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>*/}
-                {/*    </IconButton>*/}
-                {/*</Tooltip>*/}
 
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -118,7 +71,10 @@ export default function ButtonAppBar() {
 
                     ) : (
                         <p>
-                            <Button color="inherit" onClick={handleClickLogin} > Login</Button>
+                            <Button color="inherit" >
+                                <Link to={AppModules.Login}>   Login </Link>
+
+                                </Button>
                         </p>
                     )}
 
@@ -177,66 +133,52 @@ export default function ButtonAppBar() {
         >
 
 
-            <MenuItem onClick={handle}>
+            <MenuItem >
             <HomeIcon/>
-                Головна
+                <Link to={AppModules.Home}>  Головна </Link>
             </MenuItem>
 
             {isLoggedIn?
                 (
-                    <MenuItem onClick={handlePlofle}>
-                        <Avatar /> Мій акаунт
+                    <MenuItem>
+                        <Avatar />
+                        <Link to={AppModules.User}>    Мій акаунт </Link>
                     </MenuItem>
 
                 ): null }
 
 
-            <MenuItem onClick={handleClicTests}>
+            <MenuItem >
                 <ListItemIcon>
                     <AutoStoriesIcon fontSize="small" />
+                    <Link to={AppModules.Test}>    Всі тести </Link>
                 </ListItemIcon>
-                Всі тести
             </MenuItem>
 
 
-
-            {/*<MenuItem onClick={handleClicMytest}>*/}
-            {/*    <ListItemIcon>*/}
-            {/*        <AddToPhotosIcon fontSize="small" />*/}
-            {/*    </ListItemIcon>*/}
-            {/*    {isAdmin && !isLoggedIn ? null : 'Мої тести'}*/}
-            {/*</MenuItem>*/}
-
-            {/*{isAdmin && (*/}
-            {/*    <MenuItem onClick={handleClicMytest}>*/}
-            {/*        <ListItemIcon>*/}
-            {/*            <AddToPhotosIcon fontSize="small" />*/}
-            {/*        </ListItemIcon>*/}
-            {/*        Мої тести*/}
-            {/*    </MenuItem>*/}
-            {/*)}*/}
-
-            <MenuItem onClick={isAdmin ? handleClicAllUsers : handleClicMytest}>
-
+            <MenuItem onClick={() => isAdmin ? navigate(AppModules.Admin) : navigate(AppModules.User)}>
                 <ListItemIcon>
                     {isLoggedIn &&isAdmin ? (
-                        <GroupIcon fontSize="small" /> // Replace with your "All Users" icon component
+                        <GroupIcon fontSize="small" />
                     ) : (
-                        <AddToPhotosIcon fontSize="small" /> // Replace with your "My Tests" icon component
+                        <AddToPhotosIcon fontSize="small" />
                     )}
                 </ListItemIcon>
-                {isLoggedIn &&isAdmin ? "Усі юзери" : "Мої тести"}
+
+                <Link to={isAdmin ? AppModules.Admin : AppModules.User}>
+                    {isLoggedIn &&isAdmin ? "Усі юзери" : "Мої тести"}
+                </Link>
+
+
             </MenuItem>
-
-
 
             {isLoggedIn &&isAdmin?
                 (
-            <MenuItem onClick={handleClicAlCategoris}>
+            <MenuItem>
                 <ListItemIcon>
                         <CategoryIcon fontSize="small" />
                 </ListItemIcon>
-             Категорії
+                <Link to={AppModules.Category}>     Категорії</Link>
             </MenuItem>
             ): null }
 
