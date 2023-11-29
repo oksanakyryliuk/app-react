@@ -3,6 +3,7 @@ import {Question, Test} from "../common/types";
 import {apiGetQuestionsByTest} from "../common/services/question-service";
 import {useNavigate, useParams} from "react-router-dom";
 import {
+    Container,
     Button,
     Stack,
     Typography
@@ -66,6 +67,7 @@ export function TestPreviewPage() {
     };
 
     return (
+        <Container>
     <StickyContainer>
         <StickyBox
             offsetTop={0}
@@ -92,7 +94,7 @@ export function TestPreviewPage() {
                 <Stack style={{display:'flex', flexDirection:"row"}}>
                     <Button
                         variant="outlined"
-                        color="secondary"
+                        color="success"
                         onClick={handleEdit}
                         style={{marginRight:'4px'}}
                     >
@@ -115,5 +117,6 @@ export function TestPreviewPage() {
             <QuestionCardList questions={questions} />
         </Stack>
     </StickyContainer>
+        </Container>
 );
 }

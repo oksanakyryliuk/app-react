@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import StickyContainer from 'react-sticky-box';
 import TestForm from "../components/TestComponents/TestForm";
-
+import {Container} from '@mui/material'
 export function TestPage() {
     const { testId } = useParams();
     const navigate = useNavigate();
@@ -12,12 +12,12 @@ export function TestPage() {
     }
 
     return (
-        <StickyContainer>
+        <Container>
             <TestForm
                 testId={testId}
                 onCancel={onCancel}
                 isEdit={false}
             />
-        </StickyContainer>
+            </Container>
     );
 }

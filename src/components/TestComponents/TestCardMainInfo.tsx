@@ -7,7 +7,7 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
+import {blue, purple} from "@mui/material/colors";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Test } from "../../common/types";
 import CategoryChip from "./PreviewComponent/CategoryChip";
@@ -41,10 +41,10 @@ const TestCardMainInfo = ({ testData }: TestCardProps) => {
 
     return (
         <div onClick={handleCardClick}>
-        <Card elevation={0} style={{width:'100%'}}>
+        <Card elevation={0} style={{width:'100%', }}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: blue[500] }}>
+                    <Avatar sx={{ bgcolor: purple[500] }}>
                         <AccountCircleIcon />
                     </Avatar>
                 }

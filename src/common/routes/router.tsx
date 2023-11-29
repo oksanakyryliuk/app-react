@@ -15,6 +15,7 @@ import ProfilePage from "../../pages/Profile";
 import {TestEditPage} from "../../pages/TestEditPage";
 import {TestPage} from "../../pages/TestPage";
 import {HomePage} from "../../pages/HomePage";
+import {GeneralTestsPage} from "../../pages/GeneralTestsPage";
 
 export const useRouter = () => {
     const routerConfig = createBrowserRouter([
@@ -45,7 +46,7 @@ export const useRouter = () => {
                     path: AppModules.Test,
                     element:(
                         <PrivateRoutesUser>
-                            <TestPage/>
+                            <GeneralTestsPage/>
                         </ PrivateRoutesUser>),
                 },
 
