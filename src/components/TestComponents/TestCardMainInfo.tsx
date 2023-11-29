@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Avatar,
+    Avatar, Button,
     Card,
     CardContent,
     CardHeader,
@@ -41,7 +41,10 @@ const TestCardMainInfo = ({ testData }: TestCardProps) => {
 
     return (
         <div onClick={handleCardClick}>
-        <Card elevation={0} style={{width:'100%', }}>
+
+        <Card elevation={0} style={{width:'100%',
+                  backgroundColor: "#f8f5fa"
+              }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: purple[500] }}>
@@ -65,7 +68,6 @@ const TestCardMainInfo = ({ testData }: TestCardProps) => {
                 </Stack>
             </CardContent>
         </Card>
-
         </div>
     );
 };

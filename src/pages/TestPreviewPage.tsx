@@ -90,7 +90,7 @@ export function TestPreviewPage() {
                 justifyContent="space-between"
                 spacing={2}
             >
-                <Typography variant="h4">Попередній перегляд тесту</Typography>
+                <Typography variant="h3">Попередній перегляд тесту</Typography>
                 <Stack style={{display:'flex', flexDirection:"row"}}>
                     <Button
                         variant="outlined"

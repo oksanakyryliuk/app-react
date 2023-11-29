@@ -12,6 +12,9 @@ export const muiDarkTheme = createTheme({
             main: `#b191ff`,
         },
     },
+    typography: {
+        fontFamily: '"Segoe UI"',
+    },
 });
 
 
