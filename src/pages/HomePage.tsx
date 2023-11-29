@@ -5,7 +5,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { AppModules } from '../common/enums/AppModules';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ButtonAppBar from "../layouts/someting/nav";
 import logo from '../public/homePhoto.jpg'
 import logo2 from '../public/ai-machine-learning-hands-of-robot-and-human-touching-big-data-of-global-network-connection.jpg_s1024x1024wisk20cIGXrdzKNqm-aQ-2hfL-8joWV9OXzX9_7BfeKQzU7ds.jpg'
 import {GeneralTestsPage} from "../pages/GeneralTestsPage";
@@ -21,7 +20,6 @@ export const HomePage = () => {
 
     return (
         <Box>
-            <ButtonAppBar></ButtonAppBar>
             <Container style={{ display: 'flex', alignItems: 'center', marginTop: '80px', }}>
                 <img style={{ width: '100%' }} src={logo2} alt="Logo" />
                 <div style={{ textAlign: 'center', }}>

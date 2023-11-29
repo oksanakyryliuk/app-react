@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ButtonAppBar from "../layouts/someting/nav";
+// import ButtonAppBar from "../layouts/someting/nav";
 import {Container} from "@mui/material";
 import {apiDeleteUsers, apiGetUsers} from "../common/services/auth-service";
 import UsersTable from "../components/Users/UsersTable";
@@ -21,7 +21,6 @@ export function UsersPage() {
 
     return (
         <div>
-            <ButtonAppBar></ButtonAppBar>
             <Container>
                 <div style={{margin: "10px 20px"}}>
                     <h1 style={{textAlign: "center"}}>Users Manager</h1>

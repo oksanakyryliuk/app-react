@@ -7,26 +7,22 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import {useAuth} from "../../auth/hooks/useAuth";
+import {useAuth} from "../auth/hooks/useAuth";
 import {useNavigate} from "react-router-dom";
-import {AppModules} from "../../common/enums/AppModules";
+import { AppModules } from "../common/enums/AppModules";
 import {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import GroupIcon from '@mui/icons-material/Group';
-import {useAuthStore} from "../../auth/store/useAuthStore";
+import { useAuthStore } from "../auth/store/useAuthStore";
 import CategoryIcon from '@mui/icons-material/Category';
 import HomeIcon from '@mui/icons-material/Home';
-import { Navigate } from 'react-router-dom'
+
 export default function ButtonAppBar() {
     const { isLoggedIn, isAdmin, isUser } = useAuth(); // Assuming you have access to user roles
     const navigate = useNavigate();
@@ -38,12 +34,6 @@ export default function ButtonAppBar() {
         loadUser();
     }, [token]);
 
-    const handleButtonClick = () => {
-        if (isLoggedIn) {
-            localStorage.setItem('authData', '');
-            window.location.reload();
-        }
-    }
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -70,12 +60,9 @@ export default function ButtonAppBar() {
                         </Button>
 
                     ) : (
-                        <p>
                             <Button color="inherit" >
                                 <Link to={AppModules.Login}>   Login </Link>
-
                                 </Button>
-                        </p>
                     )}
 
 
@@ -142,9 +129,8 @@ export default function ButtonAppBar() {
                 (
                     <MenuItem>
                         <Avatar />
-                        <Link to={AppModules.User}>    Мій акаунт </Link>
+                        <Link to={AppModules.Profile}>    Мій акаунт </Link>
                     </MenuItem>
-
                 ): null }
 
 
@@ -156,7 +142,7 @@ export default function ButtonAppBar() {
             </MenuItem>
 
 
-            <MenuItem onClick={() => isAdmin ? navigate(AppModules.Admin) : navigate(AppModules.User)}>
+            <MenuItem >
                 <ListItemIcon>
                     {isLoggedIn &&isAdmin ? (
                         <GroupIcon fontSize="small" />
@@ -165,11 +151,9 @@ export default function ButtonAppBar() {
                     )}
                 </ListItemIcon>
 
-                <Link to={isAdmin ? AppModules.Admin : AppModules.User}>
+                <Link to={isLoggedIn&&isAdmin ? AppModules.User : AppModules.MyTests}>
                     {isLoggedIn &&isAdmin ? "Усі юзери" : "Мої тести"}
                 </Link>
-
-
             </MenuItem>
 
             {isLoggedIn &&isAdmin?
@@ -192,6 +176,5 @@ export default function ButtonAppBar() {
 
         </Menu>
     </React.Fragment>
-
     );
 }

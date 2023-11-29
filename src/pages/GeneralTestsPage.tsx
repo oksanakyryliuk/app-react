@@ -4,11 +4,9 @@ import {
     Container, TextField,
     Typography, Paper, IconButton,  InputBase,  Divider
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import TestList from "../components/TestComponents/PreviewComponent/TestList";
 import { Test } from "../common/types";
-import ButtonAppBar from "../layouts/someting/nav";
 
 export function GeneralTestsPage() {
     const [tests, setTests] = useState<Test[]>([]);
@@ -19,7 +17,6 @@ export function GeneralTestsPage() {
 
     return (
         <div>
-        <ButtonAppBar></ButtonAppBar>
         <Container>
             <Paper
                 component="form"

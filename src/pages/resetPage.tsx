@@ -29,30 +29,12 @@ export function ResetPage() {
 
                 }
             console.log(sendData)
-            // You can perform any custom logic here before submitting the form
-            // For example, making an API request with the form data
             await resetPassword(sendData)
 
-            // Handle the response as needed
-
         } catch (error) {
-            // Handle any errors, e.g., network issues
+            console.log(error)
         }
     };
-
-//     return (
-//         <form onSubmit={handleSubmit(customSubmit)}>
-//             <input {...register('password', { required: true })} placeholder="New password" />
-//             <input
-//                 {...register('confirmPassword', { required: true, minLength: 6 })} // Example validation rules
-//                 placeholder="Confirm Password"
-//             />
-//             <button type="submit" disabled={!isValid}>
-//                 Submit
-//             </button>
-//         </form>
-//     );
-// }
 
     return (
         <div>

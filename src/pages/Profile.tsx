@@ -1,24 +1,18 @@
 import * as React from 'react';
 import {apiGetCategories} from "../common/services/category-service";
 import {useState} from "react";
-import {Category} from "../common/types";
+import {Category, RegisterDTO} from "../common/types";
 import {getUser} from "../common/services/auth-service";
 import {useAuth} from "../auth/hooks/useAuth";
 import {useEffect} from "react";
 import {Container, TextField, Stack, Typography, Button} from "@mui/material";
-import ButtonAppBar from "../layouts/someting/nav";
+// import ButtonAppBar from "../layouts/someting/nav";
+import {useForm} from "react-hook-form";
 
 const ProfilePage = () => {
     const [user, setUser] = useState<any>();
     const {email}=useAuth();
-
-    // useEffect(() => {
-    //     // Отримуємо дані користука при завантаженні компонента
-    //     getUser(email)
-    //         .then(user => {setUser(user);
-    //             console.log(user)})
-    //         .catch(error => console.error("Помилка отримання даних користука", error));
-    // }, [email]); // Відстежуємо зміни email
+    const {register, handleSubmit, formState: {isValid}} = useForm<any>();
 
     const loadUsers = () => {
         getUser(email).then(user => setUser(user));
@@ -31,7 +25,6 @@ const ProfilePage = () => {
     console.log(user)
     return (
         <div>
-        <ButtonAppBar></ButtonAppBar>
 <Container  maxWidth="sm" sx={{height: '100% ', marginTop: '30px',}}>
     <h4 style={{textAlign:"center"}}>Редагувати користувача</h4>
     <Stack component="form" flexDirection="column" alignContent="Center" justifyContent="center" spacing={3}
