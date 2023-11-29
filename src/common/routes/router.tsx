@@ -16,6 +16,7 @@ import {TestEditPage} from "../../pages/TestEditPage";
 import {TestPage} from "../../pages/TestPage";
 import {HomePage} from "../../pages/HomePage";
 import {GeneralTestsPage} from "../../pages/GeneralTestsPage";
+import DoingTestPage from "../../pages/DoingTestPage";
 
 export const useRouter = () => {
     const routerConfig = createBrowserRouter([
@@ -78,6 +79,13 @@ export const useRouter = () => {
                     element:(
                         <PrivateRoutesUser>
                             <TestPage/>
+                        </ PrivateRoutesUser>),
+                },
+                {
+                    path: '/doing-test/:testId',
+                    element:(
+                        <PrivateRoutesUser>
+                            <DoingTestPage/>
                         </ PrivateRoutesUser>),
                 },
 

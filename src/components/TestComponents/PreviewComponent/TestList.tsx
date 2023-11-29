@@ -2,6 +2,8 @@ import React from 'react';
 import { List, ListItem, Button, Card, CardContent, Stack, Container } from '@mui/material';
 import TestCardMainInfo from "../TestCardMainInfo";
 import {Test} from "../../../common/types";
+import {Link} from "react-router-dom";
+import {AppModules} from "../../../common/enums/AppModules";
 
 interface TestListProps {
     tests: Test[];
@@ -18,12 +20,12 @@ function TestList({ tests } : TestListProps) {
                                 {test.id && <TestCardMainInfo testData={test} />}
                             </CardContent>
                             <Stack style={{ display: 'flex', alignItems: 'flex-end' }}>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    style={{ margin: '12px', width: '200px' }}
-                                >
+                                <Button    variant="contained"
+                                           color="secondary"
+                                           style={{ margin: '12px', width: '200px' }}>
+                                <Link to={`/doing-test/${index}`}>
                                     Почати тестування
+                                </Link>
                                 </Button>
                             </Stack>
                         </Card>
